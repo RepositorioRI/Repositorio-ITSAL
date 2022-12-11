@@ -2,6 +2,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap'); 
 
 
+/*//TODO: Media queries  */
+@media (max-width: 480px) {
+    #navbar-gobmx {
+      display: none;
+      transition: all 0.3s ease-in-out;
+    }
+    #ul-navbar-riitsal {
+      margin-top: .5rem;
+    }
+    #bar-logos{
+      display: none;
+    }
+  }
+
+@media (max-width: 768px) {
+    #navbar-gobmx {
+    transition: all 0.3s ease-in-out;
+    display: none;
+    }
+    #ul-navbar-riitsal {
+    margin-top: .5rem;
+    }
+    #bar-logos{
+    display: none;
+    }
+    }
+
+
 /* //TODO: nabvar's styles gobmx  */
 
 .navbar-gobmx {
@@ -28,8 +56,31 @@
 
 
 /* //TODO: logo bar styles  */
-.size-logo-bar {
-   height: 60%;
+
+.bar-logos {
+    background-color: #fff;
+    width: 79%;
+}
+
+.bar-logo-gob1 {
+    width: 200px;
+    height: auto;
+}
+
+.bar-logo-gob2 {
+    width: 227px;
+    height: auto;
+}
+
+.bar-logo-TECNM {
+    width: 130px;
+    height: auto;
+    min-width: 70px;
+}
+
+.bar-logo-itsal {
+    width: 105px;
+    height: auto;
 }
 
 
@@ -50,7 +101,15 @@
   }
   
   .hover-navbar-riitsal:hover {
-    background-color: #807E82;
-   
+    background-color: #807E82!important;
   }
+
+  .dropdown-ul-riitsal {
+    background-color: #002F6c!important;
+  }
+
+  .dropdown-hr-riitsal {
+     border-color: #fff!important;
+  }
+
 
