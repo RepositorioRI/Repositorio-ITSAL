@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap'); 
+
+
+/* //TODO: nabvar's styles gobmx  */
+
+.navbar-gobmx {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5rem;
+}	
+
+.bg-navbar-gobmx {
+    background:  #0b231e;
+}	
+
+.img-navbar-gobmx {
+    width: 13.5rem;
+    height: 5rem;
+    margin-top: -2%;
+    margin-bottom: -2%;
+    padding-left: 68px;
+}	
+
+.text-navbar-gobmx {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+/* //TODO: logo bar styles  */
+.size-logo-bar {
+   height: 60%;
+}
+
+
+/* //TODO: navbar RI_ITSAL styles  */
+
+.bg-navbar-riitsal {
+    background: #002F6c;
+}
+
+.text-navbar-riitsal {
+    font-family: 'Montserrat', sans-serif;
+    
+ }
+
+ .hover-navbar-riitsal {
+   
+    transition: background-color .5s;
+  }
+  
+  .hover-navbar-riitsal:hover {
+    background-color: #807E82;
+   
+  }
+
