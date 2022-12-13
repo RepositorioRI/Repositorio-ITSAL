@@ -14,6 +14,7 @@
     #bar-logos{
       display: none;
     }
+   
   }
 
 @media (max-width: 768px) {
@@ -52,6 +53,7 @@
 
 .text-navbar-gobmx {
     font-family: 'Montserrat', sans-serif;
+    font-size: 16px!important;
 }
 
 
@@ -90,6 +92,7 @@
     background: #002F6c;
 }
 
+
 .text-navbar-riitsal {
     font-family: 'Montserrat', sans-serif;
     
@@ -112,4 +115,58 @@
      border-color: #fff!important;
   }
 
+  /* //TODO: footer RI_ITSAL styles  */
+  .bg-footer-riitsal {
+    background-color: #002F6c;
+  }
 
+  .text-footer-riitsal {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+  }
+  .text-title-footer-riitsal {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+  }
+
+  .bar-none{
+    background: #10312B;
+    width: auto;
+    height: 1rem;
+  }
+
+  .bg-footer-gobmx{
+    background-color:#235B4E;
+    background-image: url(https://www.salinacruz.tecnm.mx/wp-content/themes/twentysixteen/img/fondofooter.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    width:auto;
+  }
+
+  .bar-none2{
+    background: #10312B;
+    width: 100%;
+    height: 3.5rem;
+  }
+
+  .link-footer-riitsal {
+    color: #fff;
+  }
+
+  .icon-footer-riitsal {
+    color: black;
+    font-size: 1.5rem;
+  }
+
+  .row-footer-riitsal {
+    --bs-gutter-x: 0rem!important;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+}
+  
+ 
