@@ -3,7 +3,7 @@
 
 
 /*//TODO: Media queries  */
-@media (max-width: 480px) {
+@media (max-width: 480px) {   /*cuando el tamaño sea de dispositivo movil */
     #navbar-gobmx {
       display: none;
       transition: all 0.3s ease-in-out;
@@ -20,10 +20,14 @@
     #filters{
       margin-top: 1.5rem;
     }
+    #sitiosDeInteres{
+      display: none;
+    }
+    
    
   }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) {   /*cuando el tamaño sea de tamaño medio o tabletas */
     #navbar-gobmx {
     transition: all 0.3s ease-in-out;
     display: none;
@@ -40,7 +44,28 @@
     #filters{
       margin-top: 1.5rem;
     }
+    #sitiosDeInteres{
+      display: none;
     }
+   
+    }
+
+@media (min-width: 992px) {   /*cuando el tamaño sea de tamaño grande o computadoras */
+  #carouselExampleInterval{
+    display: none;
+  }
+}
+  @media (min-width: 1200px) {   /*cuando el tamaño sea de tamaño grande o computadoras */
+    #carouselExampleInterval{
+      display: none;
+    }
+  }
+  @media (min-width: 768px) {
+    #carouselExampleInterval{
+      display: none;
+    }
+}
+
 
 
 /* //TODO: nabvar's styles gobmx  */
@@ -218,11 +243,6 @@
     background: #002F6c!important;
   }
 
-  .bg-body-card-riitsal {
-    background: #002F6c!important;
-  }
-  
-
   .list-group-item-riitsal{
     position: relative;
     display: block;
@@ -239,7 +259,7 @@
   padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
   color: var(--bs-list-group-color);
   text-decoration: none;
-  background-color: #002F6c!important;
+  background-color: #ffffff!important;
   border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
 }
 
@@ -265,9 +285,16 @@
   height: 30em
 }
 
-
 .text-bg-custom {
   color: #fff!important;
   background: #002F6c!important;
-  /* background-color: RGBA(108,117,125,var(--bs-bg-opacity,1))!important; */
 }
+
+  /* //TODO: sites of interest RI_ITSAL styles  */
+
+  .header-card_title_bg{
+    background: #002F6c!important;
+  }
+  .header-card_title_text{
+    font-family: 'Montserrat', sans-serif; 
+  }

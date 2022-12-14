@@ -1,30 +1,33 @@
-
+<!-- TODO: Inicia contenido de la pagina principal del repositorio-->
 {% load static %}
 <div class="container mt-4 mb-4">
     <div class="row">
+      <!-- TODO: Inicia contenido izquierdo (documentos por carrera)-->
         <aside class="col-md-3 d-flex ">
-           <div class="card w-100 bg-body-card-riitsal">
+           <div class="card w-100 shadow-lg ">
             <div class="card-header bg-header-card-riitsal text-white">
-                <h2 class="fs-4 text-category-riitsal ">
-                    Documentos por carrera:
+                <h2 class="fs-6 text-category-riitsal  ">
+                    <b>Documentos por carrera:</b>
                 </h2>
-                <hr>
             </div>
-            <div class="list-group ">
-                <a href="#" class="list-group-item-left-riitsal  text-white hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. Quimica <span class="badge text-bg-secondary float-end">0</span></a>
-                <a href="#" class="list-group-item-left-riitsal text-white hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. en Acuicultura <span class="badge text-bg-secondary float-end">0</span></a>
-                <a href="#" class="list-group-item-left-riitsal  text-white hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. Mecanica <span class="badge text-bg-secondary float-end">0</span></a>
-                <a href="#" class="list-group-item-left-riitsal text-white hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. Electronica <span class="badge text-bg-secondary float-end">0</span></a>
-                <a href="#"  class="list-group-item-left-riitsal  text-white hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. en Gestion Empresarial <span class="badge text-bg-secondary float-end">0</span></a>
-                <a href="#"  class="list-group-item-left-riitsal  text-white hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. en TIC'S <span class="badge text-bg-secondary float-end">0</span></a>
+            <div class="list-group p-3 ">
+                <a href="#" class="list-group-item-left-riitsal  text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. Quimica <span class="badge text-bg-secondary float-end">0</span></a>
+                <a href="#" class="list-group-item-left-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. en Acuicultura <span class="badge text-bg-secondary float-end">0</span></a>
+                <a href="#" class="list-group-item-left-riitsal  text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. Mecanica <span class="badge text-bg-secondary float-end">0</span></a>
+                <a href="#" class="list-group-item-left-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. Electronica <span class="badge text-bg-secondary float-end">0</span></a>
+                <a href="#"  class="list-group-item-left-riitsal  text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. en Gestion Empresarial <span class="badge text-bg-secondary float-end">0</span></a>
+                <a href="#"  class="list-group-item-left-riitsal  text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">Ing. en TIC'S <span class="badge text-bg-secondary float-end">0</span></a>
               </div>
            </div>
         </aside>
+        <!-- TODO: Termina contenido izquierdo (documentos por carrera)-->
+
+        <!-- TODO: Inicia contenido central (documentos del RI ITSAL)-->
         <div class="col-md-6 d-flex sm-mt-2" id="documents">
-         <div class="card w-100 ">
+         <div class="card w-100 shadow-lg ">
             <div class="card-header bg-header-card-riitsal text-white">
-                <h2 class="fs-4 text-category-riitsal ">
-                    Documentos del RI ITSAL
+                <h2 class="fs-6 text-category-riitsal ">
+                   <b> Documentos del RI ITSAL</b>
                 </h2>
             </div>
             <div class="row">
@@ -70,49 +73,44 @@
                   </div>
                 </div>
               </div>
-
          </div>
         </div>
-        <aside class="col-md-3 d-flex" id="filters">
-            <div class="card w-100 bg-body-card-riitsal">
-                <div class="card-header bg-header-card-riitsal text-white">
-                    <h2 class="fs-4 text-category-riitsal ">
-                        Filtros:
-                    </h2>
-                    <hr>
-                </div>
+        <!-- TODO: Termina contenido central (documentos del RI ITSAL)-->
 
+        <!-- TODO: Inicia contenido derecho (Filtros)-->
+        <aside class="col-md-3 d-flex" id="filters">
+            <div class="card w-100 shadow-lg">
+                <div class="card-header bg-header-card-riitsal text-white">
+                    <h2 class="fs-6 text-category-riitsal ">
+                        <b>Filtros:</b>
+                    </h2>
+                </div>
                <div class="p-4">
-                <h2 class="fs-5 text-white text-category-riitsal ">Autor:</h2>
-                
-                <div class="list-group">
+                <h2 class="fs-6 text-dark text-category-riitsal "><b>Autor:</b></h2>
+                <div class="list-group shadow-lg">
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A second link item <span class="badge text-bg-secondary float-end">0</span></a>
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A third link item<span class="badge text-bg-secondary float-end">0</span></a>
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A fourth link item<span class="badge text-bg-secondary float-end">0</span></a>
                   </div>
                </div>
-
                <div class="p-4">
-                <h2 class="fs-5 text-white text-category-riitsal ">Titulo:</h2>
-                
-                <div class="list-group">
+                <h2 class="fs-6 text-dark text-category-riitsal"><b>Titulo:</b></h2>
+                <div class="list-group shadow-lg">
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A second link item<span class="badge text-bg-secondary float-end">0</span></a>
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A third link item<span class="badge text-bg-secondary float-end">0</span></a>
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A fourth link item<span class="badge text-bg-secondary float-end">0</span></a>
                   </div>
                </div>
-
                <div class="p-4">
-                <h2 class="fs-5 text-white text-category-riitsal ">Fecha de lanzamiento:</h2>
-                
-                <div class="list-group">
+                <h2 class="fs-6 text-dark text-category-riitsal "><b>Fecha de lanzamiento:</b></h2>
+                <div class="list-group shadow-lg">
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A second link item<span class="badge text-bg-secondary float-end">0</span></a>
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A third link item<span class="badge text-bg-secondary float-end">0</span></a>
                     <a href="#" class="list-group-item-riitsal text-dark hover-list-group-item-riitsal list-group-item-action text-category-riitsal ">A fourth link item<span class="badge text-bg-secondary float-end">0</span></a>
                   </div>
                </div>
-
                </div>
         </aside>
+        <!-- TODO: Termina contenido derecho (Filtros)-->
       </div>
 </div>
