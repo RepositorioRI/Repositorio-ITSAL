@@ -14,6 +14,12 @@
     #bar-logos{
       display: none;
     }
+    #documents{
+      margin-top: 1.5rem;
+    }
+    #filters{
+      margin-top: 1.5rem;
+    }
    
   }
 
@@ -27,6 +33,12 @@
     }
     #bar-logos{
     display: none;
+    }
+    #documents{
+      margin-top: 1.5rem;
+    }
+    #filters{
+      margin-top: 1.5rem;
     }
     }
 
@@ -170,3 +182,92 @@
 }
   
  
+  /* //TODO: mision RI_ITSAL styles  */
+
+  .bg-title-riitsal {
+    background: #002F6c!important;
+  }
+
+  .bg-mision-riitsal {
+    background: #807E82!important;
+  }
+
+
+  .text-mision-riitsal {
+    font-family: 'Montserrat', sans-serif!important;
+    font-size: 16px;
+  }
+
+
+.bd-callout {
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid #eee;
+    border-left-width: 0.25rem;
+    border-radius: 0.25rem;
+}
+
+.bd-callout-info {
+  border-left-color:#002F6c;
+}
+
+  /* //TODO: categorias menu principal publico RI_ITSAL styles  */
+
+  .bg-header-card-riitsal {
+    background: #002F6c!important;
+  }
+
+  .bg-body-card-riitsal {
+    background: #002F6c!important;
+  }
+  
+
+  .list-group-item-riitsal{
+    position: relative;
+    display: block;
+    padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+    color: var(--bs-list-group-color);
+    text-decoration: none;
+    background-color: #fbfdff!important;
+    border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+}
+
+.list-group-item-left-riitsal{
+  position: relative;
+  display: block;
+  padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+  color: var(--bs-list-group-color);
+  text-decoration: none;
+  background-color: #002F6c!important;
+  border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+}
+
+.text-category-riitsal {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.hover-list-group-item-riitsal {
+   
+  transition: background-color .5s;
+}
+
+.hover-list-group-item-riitsal:hover  {
+  background-color: #807E82!important;
+  color: #fff!important;
+}
+.list-group-item-border{
+  border: 1px solid #fff!important;
+}
+
+.size-logo-categoria{
+  width: 30em;
+  height: 30em
+}
+
+
+.text-bg-custom {
+  color: #fff!important;
+  background: #002F6c!important;
+  /* background-color: RGBA(108,117,125,var(--bs-bg-opacity,1))!important; */
+}
