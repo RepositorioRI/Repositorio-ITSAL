@@ -23,7 +23,11 @@
     #sitiosDeInteres{
       display: none;
     }
-    
+    #footer-login{
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
    
   }
 
@@ -49,16 +53,26 @@
     }
    
     }
+@media (max-width: 1200px) {   /*cuando el tamaño sea de tamaño grande o computadoras */
+
+
+ 
+}
+
+
 
 @media (min-width: 992px) {   /*cuando el tamaño sea de tamaño grande o computadoras */
   #carouselExampleInterval{
     display: none;
   }
+  
 }
   @media (min-width: 1200px) {   /*cuando el tamaño sea de tamaño grande o computadoras */
     #carouselExampleInterval{
       display: none;
     }
+    
+    
   }
   @media (min-width: 768px) {
     #carouselExampleInterval{
@@ -298,3 +312,14 @@
   .header-card_title_text{
     font-family: 'Montserrat', sans-serif; 
   }
+
+   /* //TODO: login styles  */
+
+   .navbar-bg-login {
+    background: #002F6c!important;
+  }
+  .navbar-login-text {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  
