@@ -1,0 +1,80 @@
+{% load static %}
+{% include 'base.html' %}
+
+<body>
+    {% include 'components/navbarRI.html' %}
+<div class="container p-2 ">
+    {% include 'components/titleRI.html' %}
+    <div class="w-100  card-header  p-2"><h2 class="fs-5"><b>Inicio Administrador RI - ITSAL</b></h2></div>
+    <div class="row mt-4 d-flex justify-content-center">
+        <div class="col-sm-4  mb-4 ">
+            <div class="card shadow-lg ">
+                <div class="card-header text-center bg-header-title  text-white">
+                    <h2 class="fs-5"><b>Documentos</b></h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img style="height: 10em; width: 10em;" src="{% static 'images\icon\documents2.png' %}" alt="">
+                        </div>
+                        <div class="col-sm-6 p-4">
+                            <div class="">
+                                <h2 class="fs-6 text-muted"><b>0 Documentos existentes</b></h2>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-secondary">ver más</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-4 ">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-header-title  text-white">
+                    <h2 class="fs-5"><b>Quejas y Sugerencias</b></h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img style="height: 10em; width: 10em;" src="{% static 'images\icon\inbox.png' %}" alt="">
+                        </div>
+                        <div class="col-sm-6 p-4">
+                            <div class="">
+                                <h2 class="fs-6 text-muted"><b>0 Comentarios existentes</b></h2>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-secondary">ver más</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-sm-4 mb-4 ">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-header-title  text-white">
+                    <h2 class="fs-5"><b>Subadministradores</b></h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img style="height: 10em; width: 10em;" src="{% static 'images\icon\people.png' %}" alt="">
+                        </div>
+                        <div class="col-sm-6 p-4">
+                            <div class="">
+                                <h3 class="fs-6 text-muted"><b>0 registros existentes</b></h3>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-secondary">ver más</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div> 
+</div>
+{% include 'components/footerRI.html' %}
+</body>

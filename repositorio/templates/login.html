@@ -1,12 +1,12 @@
 {% include 'base.html' %}
 
 <body>
-    <nav class="navbar-bg-login text-white p-4 text-center">
-        <h2 class="fs-5 fw-bold navbar-login-text">Repositorio Institucional del Instituto Tecnológico de Salina Cruz (RI - ITSAL) </h2>
+    <nav class="bg-header-title text-white p-4 text-center">
+        <h2 class="fs-5 fw-bold">Repositorio Institucional del Instituto Tecnológico de Salina Cruz (RI - ITSAL) </h2>
     </nav>
     
-    <section>
-        <div class="container mb-2" id="login">
+    <main>
+        <div class="container">
           <div class="row d-flex justify-content-center align-items-center">
             <div class="col col-xl-10">
               <div class="card mt-4 shadow-lg" style="border-radius: 1rem;">
@@ -24,13 +24,13 @@
                         </div>
 
                         <div class="form-outline mb-4">
-                          <label class="form-label navbar-login-text" for="form2Example17">Correo Electrónico:</label>
-                          <input type="email" id="form2Example17" class="form-control form-control-lg"/>
+                          <label class="form-label navbar-login-text" for="correo">Correo Electrónico:</label>
+                          <input type="email" id="correo" class="form-control form-control-lg" required/>
                         </div>
       
                         <div class="form-outline mb-4">
-                            <label class="form-label navbar-login-text" for="form2Example27">Contraseña</label>
-                          <input type="password" id="form2Example27" class="form-control form-control-lg" />
+                            <label class="form-label navbar-login-text" for="contraseña">Contraseña</label>
+                          <input type="password" id="contraseña" class="form-control form-control-lg" required />
                         </div>
       
                           <div class="d-grid gap-2 navbar-login-text">
@@ -44,12 +44,6 @@
             </div>
           </div>
         </div>
-      </section>
-    
-    
-    
-    <footer class="bg-footer-riitsal d-flex justify-content-center p-3 position-absolute bottom-0 w-100 " >
-        <p class="text-footer-riitsal text-center text-white mt-2">© Copyright 2022 TecNM - Todos los Derechos Reservados</p>
-    </footer>
-    
+      </main>
+      {% include 'components/footerRI.html' %}
 </body>
