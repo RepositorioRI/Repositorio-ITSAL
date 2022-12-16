@@ -1,0 +1,39 @@
+{% include 'base.html' %}
+<body>
+{% include 'components/navbarGeneralPrueba.html' %}
+    <main>
+      <div class="container">
+        {% include 'components/titleRI.html' %}
+        {% include 'components/recursosDigitales.html' %}
+        <div class="col-12">
+            <div class="card mb-4 shadow-lg">
+                <div class="card-header bg-header-title">
+                    <h2 class="fs-5 fw-bold text-white">Contactanos</h2>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-secondary" role="alert">
+                       Gracias por sus quejas y sugerencias, nos ayudan a mejorar.
+                      </div>
+                      <form>
+                        <div class="mb-3">
+                          <label for="inputNombreContacto" class="form-label">Nombre y apellidos</label>
+                          <input type="text" placeholder="Ingrese su nombre y apellidos" class="form-control" id="inputNombreContacto" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="inputCorreoContactos" class="form-label">Correo Electronico</label>
+                          <input type="email" placeholder="Ingrese su dirección de correo electrónico" class="form-control" id="inputCorreoContactos" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea  type="text" placeholder="Escriba su mensaje aqui" class="form-control" style="height: 10em;" required></textarea>
+                          <div class="d-grid gap-2">
+                            <button class="btn btn-secondary" type="button">Enviar</button>
+                          </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+    {% include 'footer.html' %}
+</body>
+

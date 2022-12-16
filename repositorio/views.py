@@ -13,3 +13,9 @@ def login(request):
 
 def inicioAdminSubadmin(request):
     return render(request,'inicioAdminSubadmin.html')
+
+def contacto(request):
+    return render(request,'contacto.html')
+
+def registroSub(request):
+    return render(request,'registroSub.html')
