@@ -19,3 +19,6 @@ def contacto(request):
 
 def registroSub(request):
     return render(request,'registroSub.html')
+
+def agregarDocumentos(request):
+    return render(request,'agregarDocumentos.html')

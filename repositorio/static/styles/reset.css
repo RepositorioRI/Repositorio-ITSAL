@@ -136,6 +136,7 @@ body {
   font-size: 100%;
   font-family:'Montserrat';
   color: var(--negro);
+  background: rgb(235, 233, 233)!important;
   /* opcional */
   line-height: 1.4em;
   /* opcional */
@@ -148,6 +149,9 @@ body {
   -webkit-font-smoothing: antialiased;
   /* opcional */
   -moz-osx-font-smoothing: grayscale;
+}
+main{
+  background: rgb(235, 233, 233);
 }
 
 

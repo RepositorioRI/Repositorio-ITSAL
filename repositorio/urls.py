@@ -7,4 +7,5 @@ urlpatterns = [
        path('inicioAdminSubadmin/', views.inicioAdminSubadmin),
        path('contacto/', views.contacto),
        path('registroSub/', views.registroSub),
+       path('agregarDocumentos/', views.agregarDocumentos),
 ]
