@@ -9,4 +9,5 @@ urlpatterns = [
        path('registroSub/', views.registroSub),
        path('agregarDocumentos/', views.agregarDocumentos),
        path('agregarDocumentos2/', views.agregarDocumentos),
+       #te la comes joto
 ]
