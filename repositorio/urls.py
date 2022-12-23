@@ -11,6 +11,7 @@ urlpatterns = [
        
        #cualquier cosa :v
        #te la comes joto tu macho el kks joton
+       #joptonad
 
 
 ]
