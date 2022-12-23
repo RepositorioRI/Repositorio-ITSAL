@@ -9,6 +9,6 @@ urlpatterns = [
        path('registroSub/', views.registroSub),
        path('agregarDocumentos/', views.agregarDocumentos),
        
-       #te la comes joto tu macho el kks
+       #se la chupas al mamer puto
 
 ]
