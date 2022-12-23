@@ -13,6 +13,6 @@ urlpatterns = [
        #te la comes joto tu macho el kks joton
        #joptonad
        #lol
-
+       
 
 ]
