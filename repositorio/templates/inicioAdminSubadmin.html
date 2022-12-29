@@ -51,7 +51,7 @@
                 </div>
             </div>
         </div>
-       
+       {% if datosDeSesion.role == 'Administrador' %}
         <div class="col-sm-4 mb-4 ">
             <div class="card shadow-lg">
                 <div class="card-header text-center bg-header-title  text-white">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-sm-6 p-4">
                             <div class="">
-                                <h3 class="fs-6 text-muted"><b>0 registros existentes</b></h3>
+                                <h3 class="fs-6 text-muted"><b>{{ cantidadDeUsuarios }} registros existentes</b></h3>
                             </div>
                             <div class="mt-4">
                                 <button class="btn btn-secondary">ver más</button>
@@ -74,6 +74,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
       </div> 
 </div>
 {% include 'components/footerRI.html' %}

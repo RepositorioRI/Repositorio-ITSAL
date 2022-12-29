@@ -230,4 +230,14 @@
   .bg-header-title {
     background: #002F6c!important;
   }
+
+  /*//TODO: Estilos para los mensajes de error de los forms del django*/
+  .errorlist {
+    padding: 0;
+  }
+
+  .errorlist li {
+    color: #c83838!important;
+    text-align: left;
+  }
   

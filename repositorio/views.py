@@ -1,7 +1,13 @@
-
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
-
+#importamos la clase que contiene los atributos del firebase
+from repositorio.logic.atributosFirebase import *
+#importamos la logica de usuarios
+from repositorio.logic.Usuarios import *
+#libreria para los formularios
+from repositorio.forms import *
+#libreria para mensajes en redirect y render
+from django.contrib import messages
 
 # Create your views here.
 
@@ -9,16 +15,67 @@ def index(request):
     return render(request,'index.html')
 
 def login(request):
-    return render(request,'login.html')
+    if request.method == 'POST':#si recibe algo por post
+        form = LoginForm(request.POST)#creame el formulario pasando como argumento los datos del request
+        if (form.is_valid()):#si es valido los datos del formulario
+            data = request.POST.dict()#usar los datos como un diccionario
+            result = Usuarios.login(data)#ejecuta la logica de login y regresa un diccionario de respuesta
+            if result['error'] == False and result['usuarioLogeado'] == True:#si la respuesta fue exitosa
+                messages.success(request, result['mensaje'])#prepara un mensaje de exito
+                return redirect('/inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
+                #return redirect('/inicioAdminSubadmin/'+result['mensaje'])
+            else:# si hubo error en la respuesta
+                messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
+    else:#si no hay nada en post
+        form = LoginForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
+
+    return render(request,'login.html', {#que nos redirija a la plantilla donde pertenece esta funcion
+        "form": form #mandamos el formulario
+    })
+
+def logout(request):
+    if (ChecarExpiracion.seLogueo()):#checamos si el usuario se logueo, checando si existe el archivo de datosDeSesion
+        Usuarios.eliminarArchivoSesion()#si existe, entonces elimina el archivo
+        messages.success(request, 'Acaba de cerrar sesión, vuelva pronto!!')#preparamos el mensaje de exito para el redirect
+        return redirect('/login')#que me rediriga al login
+    else:#raro, pero si entra aqui, entonces el usuario intento cerrar sesion pero nunca se logueo
+        return redirect('/')#por lo que lo dirigimos a la pagina de index
+
 
 def inicioAdminSubadmin(request):
-    return render(request,'inicioAdminSubadmin.html')
+    if (ChecarExpiracion.seLogueo()):#checamos si el usuario se logueo, checando si existe el archivo de datosDeSesion
+        ChecarExpiracion.checarSiExpiro()#checamos si expiro el token, si es asi dentro de la logica va refrescar el token
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion()#obtenemos los datos de sesion del archivo json
+        cantidadDeUsuarios = 0 #Iniciamos la variable para poder mandarla
+        if (datosDeSesion['role'] == 'Administrador'):# si es administrador 
+            cantidadDeUsuarios = Usuarios.contarUsuarios()# entonces cuentame los usuarios
+        return render(request,'inicioAdminSubadmin.html', {# redirige a la plantilla donde pertenece esta funcion
+            'datosDeSesion': datosDeSesion,# mandamos los datos de sesion para usarlo en la plantilla
+            'cantidadDeUsuarios': cantidadDeUsuarios# mandamos la cantidad de usuarios a la plantilla
+        })
+    else:#si no se logueo
+        return redirect('/')#entonces redirigelo al index
 
 def contacto(request):
     return render(request,'contacto.html')
 
 def registroSub(request):
-    return render(request,'registroSub.html')
+    if request.method == 'POST':#si recibe algo por post
+        form = UsuarioForm(request.POST)#creame el formulario pasando como argumento los datos del request
+        if (form.is_valid()):#si es valido los datos del formulario
+            data = request.POST.dict()#usar los datos como un diccionario
+            result = Usuarios.agregarUsaurio(data)#ejecuta la logica de registro y regresa un diccionario de respuesta
+            if result['error'] == False and result['usuarioAgregado'] == True:#si la respuesta fue exitosa
+                messages.success(request, result['mensaje'])#prepara un mensaje de exito
+                return redirect('/login')#Que nos rediriga y nos muestre el mensaje
+                #return redirect('/login/usuarioRegistradoConExito')
+            else:# si hubo error en la respuesta
+                messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
+    else:#si no hay nada en post
+        form = UsuarioForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
+    return render(request,'registroSub.html', {#que nos redirija a la plantilla donde pertenece esta funcion
+        "form": form #mandamos el formulario
+        })
 
 def agregarDocumentos(request):
     return render(request,'agregarDocumentos.html')
