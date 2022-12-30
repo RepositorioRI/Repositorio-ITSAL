@@ -28,7 +28,7 @@ class ChecarExpiracion():#la logica por parte del token y expiracion
         else:
             return False#si no existe que retorne un false
     
-    @staticmethod
+    @staticmethod 
     def checarSiExpiro():#este metodo es para checar si el token ya expiro
         datosDeSesion = ChecarExpiracion.devolverTodosLosDatosSesion()#obtenemos todos los datos de la sesion
         fechaActual = datetime.datetime.now()#obtenemos la fecha actual
