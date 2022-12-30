@@ -1,15 +1,15 @@
-{% include 'base.html' %}
-<body>
-{% include 'components/navbarGeneralPrueba.html' %}
+{% extends 'base.html' %}
+{% block content %}
+{% include 'components/navbar.html '%}
     <main>
       <div class="container">
         {% include 'components/titleRI.html' %}
         <div class="col-12">
             <div class="card mb-4 shadow-lg">
-                <div class="card-header bg-header-title">
-                    <h2 class="fs-5 fw-bold text-white">Contactanos</h2>
-                </div>
                 <div class="card-body p-4">
+                  <div class="mb-3 pb-1">
+                    <span class="fs-2 fw-bold mb-0 ">Contactanos</span>
+                  </div>
                     <div class="alert alert-secondary" role="alert">
                        Gracias por sus quejas y sugerencias, nos ayudan a mejorar.
                       </div>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="mb-3">
                             <textarea  type="text" placeholder="Escriba su mensaje aqui" class="form-control" style="height: 10em;" required></textarea>
-                          <div class="d-grid gap-2">
+                          <div class="d-grid gap-2 mt-3">
                             <button class="btn btn-secondary" type="button">Enviar</button>
                           </div>
                       </form>
@@ -33,6 +33,6 @@
         </div>
       </div>
     </main>
-    {% include 'footer.html' %}
-</body>
+    {% include 'components/footer.html '%}
+{% endblock %}
 

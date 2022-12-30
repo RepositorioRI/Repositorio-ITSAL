@@ -1,6 +1,12 @@
 
    <!-- TODO: Inicia el footer-->
-
+   {% if datosDeSesion.name %}
+   <footer class="bg-header-title d-flex justify-content-center p-3 mt-auto">
+    <p class="fs-6 text-center text-white mt-2">© Copyright 2022 TecNM - Todos los Derechos Reservados</p>
+    </footer>
+  {% endif %}
+  
+   {% if datosDeSesion == None %}
   <footer>
 
     <!-- TODO: Inicia la barra copyright *footer base*-->
@@ -9,7 +15,7 @@
     </div>
     <!-- TODO: Termina la barra copyright *footer base*-->
 
-
+    
      <!-- TODO: Inicia la primera barra separadora gobmx-->
     <div class="bar-none"></div>
      <!-- TODO: Termina la primera barra separadora gobmx-->
@@ -82,5 +88,7 @@
      <!-- TODO: Inicia la segunda barra separadora gobmx-->
     <div class="bar-none2"></div>
       <!-- TODO: Termina la segunda barra separadora gobmx-->
+    
 </footer>
+{% endif %}
   <!-- TODO: Termina footer-->

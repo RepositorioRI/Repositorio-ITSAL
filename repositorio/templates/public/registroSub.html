@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+  <nav class="bg-header-title text-white p-4 text-center">
+    <h2 class="fs-5 fw-bold">Repositorio Institucional del Instituto Tecnológico de Salina Cruz (RI - ITSAL) </h2>
+  </nav>
+  <main>
+    <div class="container">
+      <div class="row d-flex p-4 justify-content-center align-items-center">
+        <div class="col col-xl-10 mb-2">
+          <div class="card shadow-lg" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="https://i.ibb.co/0XHCZtd/Cabeza.jpg" alt="login form" class="img-fluid h-100"
+                  style="border-radius: 1rem 0 0 1rem;" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+                  <!--Le decimos al formulario que por metodo post se mandara la info-->
+                  <form method="post" enctype="multipart/form-data">
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                      <span class="fs-2 fw-bold mb-0 ">Registro</span>
+                    </div>
+                    <!-- //TODO: mandamos el formulario que django nos crea con la variable form-->
+                    {{form}}
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-dark mt-4 " type="submit">Registrarme</button>
+                      <!-- //TODO: para todos los formularios, mandamos el csrf_token para que django no lo detecte como amenaza-->
+                      {% csrf_token %}
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- TODO: Inicia la barra copyright *footer base*-->
+  <footer class="bg-header-title d-flex justify-content-center p-3 mt-auto">
+    <p class="fs-6 text-center text-white mt-2">© Copyright 2022 TecNM - Todos los Derechos Reservados</p>
+  </footer>
+  <!-- TODO: Termina la barra copyright *footer base*-->
+{% endblock %}

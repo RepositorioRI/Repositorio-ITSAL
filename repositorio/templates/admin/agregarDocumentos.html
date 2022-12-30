@@ -1,8 +1,8 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 
-<body>
-    {% include 'components/navbarRI.html' %}
-    <main>
+{% block content %}
+{% include 'components/navbar.html '%}
+<main>
       <div class="container">
         {% include 'components/titleRI.html' %}
         <div class="col-12 d-flex justify-content-end mt-4">
@@ -15,9 +15,21 @@
                 </div>
                 <div class="card-body p-4">
                     <form class="row g-3">
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <label for="dc_title" class="form-label fw-bold">Titulo del documento</label>
                             <input type="text" class="form-control" id="dc_title" placeholder="Escriba el titulo del documento" required>
+                          </div>
+                          <div class="col-md-6">
+                            <label for="carrera" class="form-label fw-bold">Carrera</label>
+                            <select id="carrera" class="form-select" required>
+                              <option selected disabled>Seleccione una carrera</option>
+                              <option>Ing. Quimica</option>
+                              <option>Ing. Electronica</option>
+                              <option>Ing. Mecanica</option>
+                              <option>Ing. Acuicultura</option>
+                              <option>Ing. Gestion Empresarial</option>
+                              <option>Ing. TIC'S</option>
+                            </select>
                           </div>
                         <div class="col-md-6">
                           <label for="dc_creator" class="form-label fw-bold">Autor(es)</label>
@@ -68,6 +80,10 @@
                               <option>Documento externo</option>
                             </select>
                           </div>
+                          <div class="col-md-12">
+                            <label for="inputDocumento" class="form-label fw-bold">Selecciona el documento</label>
+                            <input type="file" class="form-control" id="inputDocumento" accept="application/pdf" required>
+                          </div>
                         <div class="col-md-12">
                             <label for="dc_rights" class="form-label fw-bold">Ingresa la licencia cc</label>
                             <textarea type="text" class="form-control" id="dc_rights" required></textarea>
@@ -84,8 +100,7 @@
                 </div>
             </div>
         </div>
-          
       </div>
     </main>
-    {% include 'components/footerRI.html' %}
-</body>
+    {% include 'components/footer.html '%}
+    {% endblock %}
