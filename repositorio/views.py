@@ -106,4 +106,10 @@ def vistaDocumento(request):
 
 def vistaMetadatos(request):
    return render(request,'public/vistaMetadatos.html')
+
+def vistaSubadministradores(request):
+    return render(request,'admin/vistaSubadministradores.html')
+        
+def vistaQuejasSugerencias(request):
+    return render(request,'admin/vistaQuejasSugerencias.html')
         

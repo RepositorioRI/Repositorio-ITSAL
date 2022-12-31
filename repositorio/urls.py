@@ -10,5 +10,9 @@ urlpatterns = [
        path('registroSub/', views.registroSub, name="registroSub"),
        path('agregarDocumentos/', views.agregarDocumentos, name="agregarDocumentos"),
        path('vistaDocumento/', views.vistaDocumento, name="vistaDocumento"),
-        path('vistaMetadatos/', views.vistaMetadatos, name="vistaMetadatos"),
+       path('vistaMetadatos/', views.vistaMetadatos, name="vistaMetadatos"),
+       path('vistaSubadministradores/', views.vistaSubadministradores, name="vistaSubadministradores"),
+       path('vistaQuejasSugerencias/', views.vistaQuejasSugerencias, name="vistaQuejasSugerencias"),
+       
 ]
+
