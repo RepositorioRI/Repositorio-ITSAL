@@ -100,3 +100,10 @@ def agregarDocumentos(request):
     else:
         messages.error(request, 'No tiene permisos para acceder a esta ruta')
         return redirect('inicio')
+
+def vistaDocumento(request):
+   return render(request,'public/vistaDocumento.html')
+
+def vistaMetadatos(request):
+   return render(request,'public/vistaMetadatos.html')
+        

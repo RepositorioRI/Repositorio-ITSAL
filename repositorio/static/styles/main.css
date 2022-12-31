@@ -47,13 +47,6 @@
     }
    
     }
-@media (max-width: 1200px) {   /*cuando el tamaño sea de tamaño grande o computadoras */
-
-
- 
-}
-
-
 
 @media (min-width: 992px) {   /*cuando el tamaño sea de tamaño grande o computadoras */
   #carouselInterval{
@@ -74,6 +67,11 @@
     }
 }
 
+/*//TODO: General styles  */
+  
+.bg-header-title {
+  background: #002F6c!important;
+}
 
 /* //TODO: nabvar's styles gobmx  */
 
@@ -225,11 +223,7 @@
   background: #002F6c!important;
 }
 
-  /*//TODO: General styles  */
   
-  .bg-header-title {
-    background: #002F6c!important;
-  }
 
   /*//TODO: Estilos para los mensajes de error de los forms del django*/
   .errorlist {
@@ -240,4 +234,117 @@
     color: #c83838!important;
     text-align: left;
   }
+
+   /* TODO: estilos tabla vista documentos (tb-documentos) */
+   .tb-documentos td,th{
+    border: 1px solid #dee2e6 !important;
+  }
+  .td-title{
+    width: 200px!important;
+  }
   
+
+  /* TODO: estilos tabla vista informacion del documento (tb-datos) */
+  .tb-datos td,th{
+    border: 1px solid #dee2e6 !important;
+  }
+  
+  /* TODO: Estilos creative commons */
+ 
+  .cc {
+    display: flex;
+    align-items: center; 
+    justify-content: start;
+  }
+  
+  .cc img {
+    margin-right: 10px;
+    width: 10em; 
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .cc a {
+    float: left;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    margin-left: 10px;
+    font-weight: bold;
+  }
+  
+  .cc br {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .cc {
+      display: flex;
+      flex-direction: column; 
+      align-items: center;
+      text-align: center; 
+    }
+    
+    .cc img {
+      float: none;
+      margin-bottom: 10px; 
+      
+    }
+    
+    .cc a {
+      width: 100%;
+    }
+     /* estilos para la licencia externa (le) */
+    .le {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .cc {
+      display: flex;
+      flex-direction: column; 
+      align-items: center; 
+      text-align: center; 
+    }
+    
+    .cc img {
+      float: none;
+      width: em; 
+      margin-bottom: 10px;
+    }
+    
+    .cc a {
+      width: 100%; 
+    }
+    /* estilos para la licencia externa (le) */
+    .le {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+  @media (max-width: 992px) {
+    .cc {
+      display: flex;
+      flex-direction: column; /* muestra los elementos hijos en una columna */
+      align-items: center; /* alinea los elementos hijos verticalmente en el centro */
+      text-align: center; /* centra el texto en el contenedor */
+    }
+    
+    .cc img {
+      float: none;
+      width: em; /* establece el ancho del elemento al 100% del contenedor */
+      margin-bottom: 10px; /* agrega un margen de 10 píxeles abajo de la imagen */
+      
+    }
+    
+    .cc a {
+      width: 100%; /* establece el ancho del elemento al 100% del contenedor */
+    }
+  }
