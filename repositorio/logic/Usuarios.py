@@ -1,3 +1,4 @@
+import datetime
 from repositorio.logic.ChecarExpiracion import ChecarExpiracion
 from repositorio.logic.atributosFirebase import *
 import json
@@ -67,11 +68,12 @@ class Usuarios:
                             'role': user2['role'],
                             'surnames': user2['surnames']
                         }
-                        with open('datosDeSesion.json', 'w') as file:
+                        with open(user['localId'] + '.json', 'w') as file:
                             json.dump(datosDeSesion, file)#los datos del logueo los guardamos en un archivo json llamado datosDeSesion
-                        ChecarExpiracion.iniciarFechaDeExpiracion()#iniciamos la fecha de expiracion para el token, esto se hacer el otro archivo de logica
+                        ChecarExpiracion.iniciarFechaDeExpiracion(user['localId'])#iniciamos la fecha de expiracion para el token, esto se hacer el otro archivo de logica
                         result['error'] = False#una vez creado el archivo con los datos del logueo, retornamos que todo fue un exito
                         result['usuarioLogeado'] = True
+                        result['localId'] = user['localId']
                         result['mensaje'] = 'Bienvenido al reposotiorio ...!!'
                         return result
                 except Exception as e:#muy raro, pero si hubo un error al consultar el usuario en la base de datos
@@ -90,23 +92,23 @@ class Usuarios:
             return result
 
     @staticmethod
-    def devolverTodosLosDatosSesion():#aqui abrimos el json con los datos de session y 
+    def devolverTodosLosDatosSesion(nameFile):#aqui abrimos el json con los datos de session y 
         #lo retornamos para obtener los datos para otros metodos
-        with open('datosDeSesion.json') as file:
+        with open(nameFile + '.json') as file:
             data = json.load(file)
             return data
     
     @staticmethod
-    def contarUsuarios():#este metodo retorna la cantidad de usuarios en la base de datos
-        datosDeSesion = Usuarios.devolverTodosLosDatosSesion()
+    def contarUsuarios(nameFile):#este metodo retorna la cantidad de usuarios en la base de datos
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
         users = AF.getDataBase().child('usuario').get(datosDeSesion['idToken']).val()
         cantidadDeUsuarios = len(users)
         return cantidadDeUsuarios
     
     @staticmethod
-    def eliminarArchivoSesion():#este metodo elimina el archivo json con los datos de sesion
+    def eliminarArchivoSesion(nameFile):#este metodo elimina el archivo json con los datos de sesion
         #esto se ejecuta si el usuario cerro sesion
-        os.remove('datosDeSesion.json')
+        os.remove(nameFile + '.json')
 
 
     
