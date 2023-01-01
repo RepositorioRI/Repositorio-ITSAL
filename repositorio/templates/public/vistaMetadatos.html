@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'components/navbar.html '%}
+<main>
+    <div class="container">
+        {% include 'components/titleRI.html' %}
+
+        <div class="table-responsive card-body p-4 shadow">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb fs-5">
+                  <li class="breadcrumb-item"><a href="/vistaDocumento">Registro completo de metadatos</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Nombre del documento</li>
+                </ol>
+              </nav>
+            <table class="table table-striped tb-documentos">
+               
+                <tbody>
+                  <tr>
+                    <td class="td-title"><b>DC.TITLE:</b> </td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title"><b>DC:CREATOR:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title"><b>DC.CONTRIBUTOR:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title"><b>DC.TYPE:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title" ><b>DC.DESCRIPTION:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title" ><b>DC.DATE:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title" ><b>DC.PUBLISHER:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title" ><b>DC.RIGHTS:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title" ><b>DC.FORMAT:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                  <tr>
+                    <td class="td-title" ><b>DC.LANGUAGUE:</b></td>
+                    <td>-:-</td>
+                  </tr>
+                 
+                </tbody>
+              </table>
+        </div>
+        <div class="table-responsive card-body p-4 shadow mt-4 mb-4">
+            <table class="table table-striped  tb-datos">
+                <thead>
+                  <tr>
+                    <th scope="col">Nombre del Fichero</th>
+                    <th scope="col">Tamaño</th>
+                    <th scope="col">Formato</th>
+                    <th scope="col">Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>-:-</td>
+                    <td>-:-</td>
+                    <td>-:-</td>
+                    <td><a class="btn btn-secondary btn-sm" href="" data-toggle="tooltip" title="Descargar documento"><i class="fa-solid fa-download"></i></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            
+        </div>
+       
+        <div class="card-body alert alert-primary bd-callout bd-callout-info shadow p-4">
+            <div class="le d-flex  justify-content-between">
+                <p class="fw-bold">Esta obra esta bajo una licencia externa</p>
+                <a href="#" class="alert-link">Ver licencia</a>
+            </div>
+        </div>
+        <div class="card-body bd-callout bd-callout-info shadow p-4 mb-4">
+           <div class="cc">
+            <!-- aqui va ir la licencia creative commos cuando sea insertada -->
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>.
+           </div>
+        </div>
+    </div>
+        
+</main>
+{% include 'components/footer.html '%}
+{% endblock %}
