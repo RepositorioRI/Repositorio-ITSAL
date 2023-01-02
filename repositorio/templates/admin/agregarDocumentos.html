@@ -14,7 +14,28 @@
                     <h2 class="text-white fs-6 fw-bold">Agregar Documentos</h2>
                 </div>
                 <div class="card-body p-4">
-                    <form class="row g-3">
+                    <form method="post" enctype="multipart/form-data" class="row g-3">
+                      {% for field in form %}
+                        {% if field.name == 'description' or field.name == 'File' or field.name == 'cc' or field.name == 'externalLicense' %}
+                          <div class="col-md-12">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                          </div>
+                        {% endif %}
+                        {% if field.name == 'publisher' or field.name == 'language' or field.name == 'typeProject' %}
+                          <div class="col-md-4">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                          </div>
+                        {% endif %}
+                        {% if field.name == 'title' or field.name == 'career' or field.name == 'creator' or field.name == 'contributor' or field.name == 'type' or field.name == 'date' %}
+                          <div class="col-md-6">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                        <!--
                         <div class="col-md-6">
                             <label for="dc_title" class="form-label fw-bold">Titulo del documento</label>
                             <input type="text" class="form-control" id="dc_title" placeholder="Escriba el titulo del documento" required>
@@ -55,7 +76,7 @@
                           <label for="dc_description" class="form-label fw-bold">Descripción</label>
                           <textarea  type="text" placeholder="Escriba la desripcion del documento aqui" class="form-control" id="dc_description" style="height: 10em;" required></textarea>
                         </div>
-                        <div class="col-md-12 d-none">
+                        <div class="col-md-12">
                             <label for="dc_format" class="form-label fw-bold">Formato del documento</label>
                             <select id="dc_format" class="form-select" disabled>
                               <option selected>PDF</option>
@@ -92,10 +113,12 @@
                             <label for="inputLicenciaExterna" class="form-label fw-bold">Selecciona la licencia externa</label>
                             <input type="file" class="form-control" id="inputLicenciaExterna" accept="image/jpeg,image/png" disabled required>
                           </div>
+                        -->
                         
                         <div class="d-grid gap-2">
-                            <button class="btn btn-secondary mt-4 " type="button">Agregar documento</button>
-                          </div>
+                            <button class="btn btn-secondary mt-4 " type="submit">Agregar documento</button>
+                        </div>
+                        {% csrf_token %}
                       </form>
                 </div>
             </div>

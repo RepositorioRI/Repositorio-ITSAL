@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
+from repositorio.logic.Documento import Documento
 #importamos la clase que contiene los atributos del firebase
 from repositorio.logic.atributosFirebase import *
 #importamos la logica de usuarios
@@ -68,11 +69,13 @@ def inicioAdminSubadmin(request):
         ChecarExpiracion.checarSiExpiro(nameFile)#checamos si expiro el token, si es asi dentro de la logica va refrescar el token
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)#obtenemos los datos de sesion del archivo json
         cantidadDeUsuarios = 0 #Iniciamos la variable para poder mandarla
+        cantidadDeDocumentos = Documento.contarDocumentos(nameFile)
         if (datosDeSesion['role'] == 'Administrador'):# si es administrador 
             cantidadDeUsuarios = Usuarios.contarUsuarios(nameFile)# entonces cuentame los usuarios
         return render(request,'admin/inicioAdminSubadmin.html', {# redirige a la plantilla donde pertenece esta funcion
             'datosDeSesion': datosDeSesion,# mandamos los datos de sesion para usarlo en la plantilla
-            'cantidadDeUsuarios': cantidadDeUsuarios# mandamos la cantidad de usuarios a la plantilla
+            'cantidadDeUsuarios': cantidadDeUsuarios,# mandamos la cantidad de usuarios a la plantilla
+            'cantidadDeDocumentos': cantidadDeDocumentos
         })
     else:#si no se logueo
         messages.error(request, 'No tiene permiso para acceder a esta ruta!!')
@@ -112,10 +115,26 @@ def registroSub(request):
 def agregarDocumentos(request):
     nameFile = request.COOKIES.get('localId')
     if (ChecarExpiracion.seLogueo(nameFile)):
-        ChecarExpiracion.checarSiExpiro()
-        datosDeSesion = Usuarios.devolverTodosLosDatosSesion()
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        if request.method == 'POST':#si recibe algo por post
+            form = DocumentoForm(request.POST, request.FILES)#creame el formulario pasando como argumento los datos del request tanto del post como del file
+            if (form.is_valid()):#si es valido los datos del formulario
+                data = request.POST.dict()#usar los datos como un diccionario
+                #print(data)
+                files = request.FILES
+                result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
+                if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
+                    messages.success(request, result['mensaje'])#prepara un mensaje de exito
+                    return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
+                    #return redirect('/login/usuarioRegistradoConExito')
+                else:# si hubo error en la respuesta
+                    messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
+        else:#si no hay nada en post
+            form = DocumentoForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
         return render(request,'admin/agregarDocumentos.html', {
-            'datosDeSesion': datosDeSesion
+            'datosDeSesion': datosDeSesion,
+            'form': form
         })
     else:
         messages.error(request, 'No tiene permisos para acceder a esta ruta')
