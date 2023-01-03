@@ -173,13 +173,6 @@ def vistaSubadministradores(request):
     return render(request,'admin/vistaSubadministradores.html')
         
 def vistaQuejasSugerencias(request):
-<<<<<<< HEAD
-    return render(request,'admin/vistaQuejasSugerencias.html')
-        
-
-def vistaDocumentosTodos(request):
-    return render(request,'admin/vistaDocumentos.html')
-=======
     nameFile = request.COOKIES.get('localId')
     if (ChecarExpiracion.seLogueo(nameFile)):
         ChecarExpiracion.checarSiExpiro(nameFile)
@@ -198,4 +191,6 @@ def vistaDocumentosTodos(request):
         messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
         return redirect('inicio')
         
->>>>>>> ed71958f36b311624198c118c6cae0e04b25210f
+
+def vistaDocumentosTodos(request):
+    return render(request,'admin/vistaDocumentosTodos.html')
