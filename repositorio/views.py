@@ -1,5 +1,7 @@
+import re
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
+from repositorio.logic.Contacto import Contacto
 from repositorio.logic.Documento import Documento
 #importamos la clase que contiene los atributos del firebase
 from repositorio.logic.atributosFirebase import *
@@ -87,7 +89,23 @@ def contacto(request):
         messages.error(request, 'No puedes acceder a esta pagina publica')
         return redirect('inicioAdminSubadmin')
     else:
-        return render(request,'public/contacto.html')
+        if (request.method == 'POST'):
+            form = ContactoForm(request.POST)
+            if (form.is_valid()):
+                data = request.POST.dict()#usar los datos como un diccionario
+                #print(data)
+                result = Contacto.crearQuejaySugerencia(data)
+                if (result['error'] == False and result['quejaSugerenciaGuardada'] == True):
+                    messages.success(request, result['mensaje'])
+                    form.clean()
+                else:
+                    messages.error(request, result['mensaje'])
+                #print(result)
+        else:
+            form = ContactoForm()
+        return render(request,'public/contacto.html', {
+            'form': form
+        })
 
 def registroSub(request):
     nameFile = request.COOKIES.get('localId')
@@ -155,5 +173,21 @@ def vistaSubadministradores(request):
     return render(request,'admin/vistaSubadministradores.html')
         
 def vistaQuejasSugerencias(request):
-    return render(request,'admin/vistaQuejasSugerencias.html')
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        result = Contacto.getQuejasySugerencias(datosDeSesion['idToken'])
+        if (result['error'] == False):
+            listaQYS = result['listaQYS']
+        else:
+            listaQYS = list()
+            messages.error(request, result['mensaje'])
+        return render(request,'admin/vistaQuejasSugerencias.html', {
+            'datosDeSesion': datosDeSesion,
+            'listaQYS': listaQYS
+        })
+    else:
+        messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
+        return redirect('inicio')
         
