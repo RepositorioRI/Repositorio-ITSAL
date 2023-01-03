@@ -41,7 +41,6 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   {% if messages %}
-<<<<<<< HEAD
     {% for message in messages %}
       {% if message.tags == 'success' %}
         <script>
@@ -68,30 +67,6 @@
         </script>
       {% endif %}
     {% endfor %}
-=======
-  {% for message in messages %}
-  {% if message.tags == 'success' %}
-  <script>
-    Swal.fire({
-      icon: 'success',
-      title: 'Se realizo con exito!',
-      text: '{{ message }}',
-      allowOutsideClick: false
-    })
-  </script>
-  {% endif %}
-  {% if message.tags == 'error' %}
-  <script>
-    Swal.fire({
-      icon: 'error',
-      title: 'Ocurrio un error!',
-      text: '{{ message }}',
-      allowOutsideClick: false
-    })
-  </script>
-  {% endif %}
-  {% endfor %}
->>>>>>> ed71958f36b311624198c118c6cae0e04b25210f
   {% endif %}
 </body>
 

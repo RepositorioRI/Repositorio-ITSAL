@@ -193,4 +193,4 @@ def vistaQuejasSugerencias(request):
         
 
 def vistaDocumentosTodos(request):
-    return render(request,'admin/vistaDocumentosTodos.html')
+    return render(request,'admin/vistaDocumentos.html')
