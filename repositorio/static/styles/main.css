@@ -348,3 +348,9 @@
       width: 100%; /* establece el ancho del elemento al 100% del contenedor */
     }
   }
+
+  /* estilos modal */
+  .modal-content {
+    background-color: #002F6c!important;
+    color: #fff!important;
+  }

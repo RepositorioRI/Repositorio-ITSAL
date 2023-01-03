@@ -157,3 +157,6 @@ def vistaSubadministradores(request):
 def vistaQuejasSugerencias(request):
     return render(request,'admin/vistaQuejasSugerencias.html')
         
+
+def vistaDocumentosTodos(request):
+    return render(request,'admin/vistaDocumentos.html')

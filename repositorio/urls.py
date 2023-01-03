@@ -13,6 +13,7 @@ urlpatterns = [
        path('vistaMetadatos/', views.vistaMetadatos, name="vistaMetadatos"),
        path('vistaSubadministradores/', views.vistaSubadministradores, name="vistaSubadministradores"),
        path('vistaQuejasSugerencias/', views.vistaQuejasSugerencias, name="vistaQuejasSugerencias"),
+        path('vistaDocumentos/', views.vistaDocumentosTodos, name="vistaDocumento"),
        
 ]
 
