@@ -92,14 +92,5 @@ class DocumentoForm(forms.Form):
     cc = forms.CharField(label='Ingresa la licencia cc', max_length=500, required=True, 
         validators=[validators.RegexValidator('[a-zA-Z0-9<>:."=/\u00C0-\u017F\- ]{6,500}', message="Su licencia cc es invalida")],
         widget=forms.Textarea(attrs={'class': 'form-control mb-3', 'style': 'height: 6em;'}))
-<<<<<<< HEAD
-    externalLicense = forms.FileField(label='Seleccione la licencia externa', required=True, 
-        widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-3', 'accept':'application/pdf'}))
-
-        
-
-    
-=======
     externalLicense = forms.FileField(label='Seleccione la licencia externa (solo si el proyecto es externo)', required=False,
         widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-3', 'accept':'application/pdf'}))
->>>>>>> 61a6fde196ce5eef910e6541d8d76c373f51b094
