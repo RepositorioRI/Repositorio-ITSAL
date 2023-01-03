@@ -3,24 +3,24 @@ from django.core import validators
 #Aqui se crean los formularios para que django los agregue al html de nuestro sistema
 class UsuarioForm(forms.Form):#formulario para la gestion de usuarios
     name = forms.CharField(label='Nombre', max_length=50, required=True, 
-        validators=[validators.RegexValidator('[a-zA-ZÑñ ]{3,50}', message="Favor de introducir bien su nombre")],
+        validators=[validators.RegexValidator('[a-zA-ZÑñ\u00C0-\u017F ]{3,50}', message="Favor de introducir bien su nombre y no exceder a los 50 caracteres")],
         widget=forms.TextInput(attrs={'class': 'form-control mb-3'}))
     surnames = forms.CharField(label='Apellidos', max_length=50, required=True, 
-        validators=[validators.RegexValidator('[a-zA-ZÑñ ]{3,50}', message="Favor de introducir bien su apellido")],
+        validators=[validators.RegexValidator('[a-zA-ZÑñ\u00C0-\u017F ]{3,50}', message="Favor de introducir bien su apellido y no exceder a los 50 caracteres")],
         widget=forms.TextInput(attrs={'class': 'form-control mb-3'}))
     email = forms.EmailField(label='Email', max_length=50, required=True, 
-        validators=[validators.RegexValidator("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", message="Favor de introducir bien su correo")],
+        validators=[validators.RegexValidator("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", message="Favor de introducir bien su correo y no exceder a los 50 caracteres")],
         widget=forms.EmailInput(attrs={'class': 'form-control mb-3'}))
     password = forms.CharField(label='Contraseña', max_length=50, required=True, 
-        validators=[validators.RegexValidator('[a-zA-ZÑñ0-9 ]{6,50}', message="Su contraseña es invalida")],
+        validators=[validators.RegexValidator('[a-zA-ZÑñ0-9 ]{6,50}', message="Su contraseña es invalida, no ingresar mas de 50 caracteres")],
         widget=forms.PasswordInput(attrs={'class': 'form-control mb-3'}))
 
 class LoginForm(forms.Form):#formulario para el login
     email = forms.EmailField(label='Email', max_length=50, required=True, 
-        validators=[validators.RegexValidator("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", message="Favor de introducir bien su correo")],
+        validators=[validators.RegexValidator("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", message="Favor de introducir bien su correo y no exceder a los 50 caracteres")],
         widget=forms.EmailInput(attrs={'class': 'form-control mb-3'}))
     password = forms.CharField(label='Contraseña', max_length=50, required=True, 
-        validators=[validators.RegexValidator('[a-zA-ZÑñ0-9 ]{6,50}', message="Su contraseña es invalida")],
+        validators=[validators.RegexValidator('[a-zA-ZÑñ0-9 ]{6,50}', message="Su contraseña es invalida, no ingresar mas de 50 caracteres")],
         widget=forms.PasswordInput(attrs={'class': 'form-control mb-3'}))
 
 class DocumentoForm(forms.Form):
@@ -92,5 +92,5 @@ class DocumentoForm(forms.Form):
     cc = forms.CharField(label='Ingresa la licencia cc', max_length=500, required=True, 
         validators=[validators.RegexValidator('[a-zA-Z0-9<>:."=/\u00C0-\u017F\- ]{6,500}', message="Su licencia cc es invalida")],
         widget=forms.Textarea(attrs={'class': 'form-control mb-3', 'style': 'height: 6em;'}))
-    externalLicense = forms.FileField(label='Seleccione la licencia externa', required=True, 
+    externalLicense = forms.FileField(label='Seleccione la licencia externa (solo si el proyecto es externo)', required=False,
         widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-3', 'accept':'application/pdf'}))

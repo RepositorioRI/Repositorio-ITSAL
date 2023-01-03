@@ -121,15 +121,20 @@ def agregarDocumentos(request):
             form = DocumentoForm(request.POST, request.FILES)#creame el formulario pasando como argumento los datos del request tanto del post como del file
             if (form.is_valid()):#si es valido los datos del formulario
                 data = request.POST.dict()#usar los datos como un diccionario
-                #print(data)
                 files = request.FILES
-                result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
-                if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
-                    messages.success(request, result['mensaje'])#prepara un mensaje de exito
-                    return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
-                    #return redirect('/login/usuarioRegistradoConExito')
-                else:# si hubo error en la respuesta
-                    messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
+                validarTipoProyecto = Documento.validarTipoProyecto(data, files)
+                if (validarTipoProyecto['error'] == True):
+                    messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
+                #print(data)
+                else:
+                    #print('todo bien en el view')
+                    result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
+                    if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
+                        messages.success(request, result['mensaje'])#prepara un mensaje de exito
+                        return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
+                        #return redirect('/login/usuarioRegistradoConExito')
+                    else:# si hubo error en la respuesta
+                        messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
         else:#si no hay nada en post
             form = DocumentoForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
         return render(request,'admin/agregarDocumentos.html', {

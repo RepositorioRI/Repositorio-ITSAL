@@ -14,24 +14,24 @@
                     <h2 class="text-white fs-6 fw-bold">Agregar Documentos</h2>
                 </div>
                 <div class="card-body p-4">
-                    <form method="post" enctype="multipart/form-data" class="row g-3">
+                    <form method="post" enctype="multipart/form-data" class="row g-3" novalidate>
                       {% for field in form %}
                         {% if field.name == 'description' or field.name == 'File' or field.name == 'cc' or field.name == 'externalLicense' %}
                           <div class="col-md-12">
                             {{ field.errors }}
-                            {{ field.label_tag }} {{ field }}
+                            <strong>{{ field.label_tag }}</strong> {{ field }}
                           </div>
                         {% endif %}
                         {% if field.name == 'publisher' or field.name == 'language' or field.name == 'typeProject' %}
                           <div class="col-md-4">
                             {{ field.errors }}
-                            {{ field.label_tag }} {{ field }}
+                            <strong>{{ field.label_tag }}</strong> {{ field }}
                           </div>
                         {% endif %}
                         {% if field.name == 'title' or field.name == 'career' or field.name == 'creator' or field.name == 'contributor' or field.name == 'type' or field.name == 'date' %}
                           <div class="col-md-6">
                             {{ field.errors }}
-                            {{ field.label_tag }} {{ field }}
+                            <strong>{{ field.label_tag }}</strong> {{ field }}
                           </div>
                         {% endif %}
                       {% endfor %}
