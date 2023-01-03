@@ -94,3 +94,7 @@ class DocumentoForm(forms.Form):
         widget=forms.Textarea(attrs={'class': 'form-control mb-3', 'style': 'height: 6em;'}))
     externalLicense = forms.FileField(label='Seleccione la licencia externa', required=True, 
         widget=forms.ClearableFileInput(attrs={'class': 'form-control mb-3', 'accept':'application/pdf'}))
+
+        
+
+    
