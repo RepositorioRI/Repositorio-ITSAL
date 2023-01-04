@@ -201,8 +201,7 @@ def vistaSubadministradores(request):
                 'form': form
             })
         else:
-            messages.error(request, 'No tiene permisos para acceder a esta ruta')
-            return redirect('logout')
+            return redirect('cuentaInhabilitada')
     else:
         messages.error(request, 'No tiene permisos para acceder a esta ruta')
         return redirect('inicio')
@@ -260,3 +259,15 @@ def eliminarUsuario(request, key):
     else:
         messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
         return redirect('inicio')
+
+def cuentaInhabilitada(request):
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):#checamos si el usuario se logueo, checando si existe el archivo de datosDeSesion
+        Usuarios.eliminarArchivoSesion(nameFile)#si existe, entonces elimina el archivo
+        response = HttpResponseRedirect('/login')
+        messages.error(request, 'Su cuenta acaba de ser inhabilitada, favor de comunicarse con el administrador!!')#preparamos el mensaje de exito para el redirect
+        response.delete_cookie('localId')
+        return response
+        #return redirect('login')#que me rediriga al login
+    else:#raro, pero si entra aqui, entonces el usuario intento cerrar sesion pero nunca se logueo
+        return redirect('inicio')#por lo que lo dirigimos a la pagina de index

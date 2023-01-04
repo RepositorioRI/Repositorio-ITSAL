@@ -15,7 +15,8 @@ urlpatterns = [
        path('vistaQuejasSugerencias/', views.vistaQuejasSugerencias, name="vistaQuejasSugerencias"),
        path('vistaDocumentos/', views.vistaDocumentosTodos, name="vistaDocumentos"),
        path('eliminarQYS/<str:key>', views.eliminarQYS, name="eliminarQYS"),
-       path('eliminarUsuario/<str:key>', views.eliminarUsuario, name="eliminarUsuario")
+       path('eliminarUsuario/<str:key>', views.eliminarUsuario, name="eliminarUsuario"),
+       path('cuentaInhabilitada/', views.cuentaInhabilitada, name="cuentaInhabilitada")
        
 ]
 
