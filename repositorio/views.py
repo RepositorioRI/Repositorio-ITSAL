@@ -70,15 +70,18 @@ def inicioAdminSubadmin(request):
     if (ChecarExpiracion.seLogueo(nameFile)):#checamos si el usuario se logueo, checando si existe el archivo de datosDeSesion
         ChecarExpiracion.checarSiExpiro(nameFile)#checamos si expiro el token, si es asi dentro de la logica va refrescar el token
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)#obtenemos los datos de sesion del archivo json
-        cantidadDeUsuarios = 0 #Iniciamos la variable para poder mandarla
-        cantidadDeDocumentos = Documento.contarDocumentos(nameFile)
-        if (datosDeSesion['role'] == 'Administrador'):# si es administrador 
-            cantidadDeUsuarios = Usuarios.contarUsuarios(nameFile)# entonces cuentame los usuarios
-        return render(request,'admin/inicioAdminSubadmin.html', {# redirige a la plantilla donde pertenece esta funcion
-            'datosDeSesion': datosDeSesion,# mandamos los datos de sesion para usarlo en la plantilla
-            'cantidadDeUsuarios': cantidadDeUsuarios,# mandamos la cantidad de usuarios a la plantilla
-            'cantidadDeDocumentos': cantidadDeDocumentos
-        })
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            cantidadDeUsuarios = 0 #Iniciamos la variable para poder mandarla
+            cantidadDeDocumentos = Documento.contarDocumentos(nameFile)
+            if (datosDeSesion['role'] == 'Administrador'):# si es administrador 
+                cantidadDeUsuarios = Usuarios.contarUsuarios(nameFile)# entonces cuentame los usuarios
+            return render(request,'admin/inicioAdminSubadmin.html', {# redirige a la plantilla donde pertenece esta funcion
+                'datosDeSesion': datosDeSesion,# mandamos los datos de sesion para usarlo en la plantilla
+                'cantidadDeUsuarios': cantidadDeUsuarios,# mandamos la cantidad de usuarios a la plantilla
+                'cantidadDeDocumentos': cantidadDeDocumentos
+            })
+        else:
+            return redirect('cuentaInhabilitada')
     else:#si no se logueo
         messages.error(request, 'No tiene permiso para acceder a esta ruta!!')
         return redirect('/')#entonces redirigelo al index
@@ -135,30 +138,33 @@ def agregarDocumentos(request):
     if (ChecarExpiracion.seLogueo(nameFile)):
         ChecarExpiracion.checarSiExpiro(nameFile)
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
-        if request.method == 'POST':#si recibe algo por post
-            form = DocumentoForm(request.POST, request.FILES)#creame el formulario pasando como argumento los datos del request tanto del post como del file
-            if (form.is_valid()):#si es valido los datos del formulario
-                data = request.POST.dict()#usar los datos como un diccionario
-                files = request.FILES
-                validarTipoProyecto = Documento.validarTipoProyecto(data, files)
-                if (validarTipoProyecto['error'] == True):
-                    messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
-                #print(data)
-                else:
-                    #print('todo bien en el view')
-                    result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
-                    if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
-                        messages.success(request, result['mensaje'])#prepara un mensaje de exito
-                        return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
-                        #return redirect('/login/usuarioRegistradoConExito')
-                    else:# si hubo error en la respuesta
-                        messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
-        else:#si no hay nada en post
-            form = DocumentoForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
-        return render(request,'admin/agregarDocumentos.html', {
-            'datosDeSesion': datosDeSesion,
-            'form': form
-        })
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            if request.method == 'POST':#si recibe algo por post
+                form = DocumentoForm(request.POST, request.FILES)#creame el formulario pasando como argumento los datos del request tanto del post como del file
+                if (form.is_valid()):#si es valido los datos del formulario
+                    data = request.POST.dict()#usar los datos como un diccionario
+                    files = request.FILES
+                    validarTipoProyecto = Documento.validarTipoProyecto(data, files)
+                    if (validarTipoProyecto['error'] == True):
+                        messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
+                    #print(data)
+                    else:
+                        #print('todo bien en el view')
+                        result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
+                        if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
+                            messages.success(request, result['mensaje'])#prepara un mensaje de exito
+                            return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
+                            #return redirect('/login/usuarioRegistradoConExito')
+                        else:# si hubo error en la respuesta
+                            messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
+            else:#si no hay nada en post
+                form = DocumentoForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
+            return render(request,'admin/agregarDocumentos.html', {
+                'datosDeSesion': datosDeSesion,
+                'form': form
+            })
+        else:
+            return redirect('cuentaInhabilitada')
     else:
         messages.error(request, 'No tiene permisos para acceder a esta ruta')
         return redirect('inicio')
@@ -212,16 +218,19 @@ def vistaQuejasSugerencias(request):
     if (ChecarExpiracion.seLogueo(nameFile)):
         ChecarExpiracion.checarSiExpiro(nameFile)
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
-        result = Contacto.getQuejasySugerencias(datosDeSesion['idToken'])
-        if (result['error'] == False):
-            listaQYS = result['listaQYS']
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            result = Contacto.getQuejasySugerencias(datosDeSesion['idToken'])
+            if (result['error'] == False):
+                listaQYS = result['listaQYS']
+            else:
+                listaQYS = list()
+                messages.error(request, result['mensaje'])
+            return render(request,'admin/vistaQuejasSugerencias.html', {
+                'datosDeSesion': datosDeSesion,
+                'listaQYS': listaQYS
+            })
         else:
-            listaQYS = list()
-            messages.error(request, result['mensaje'])
-        return render(request,'admin/vistaQuejasSugerencias.html', {
-            'datosDeSesion': datosDeSesion,
-            'listaQYS': listaQYS
-        })
+            return redirect('cuentaInhabilitada')
     else:
         messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
         return redirect('inicio')
@@ -235,12 +244,15 @@ def eliminarQYS(request, key):
     if (ChecarExpiracion.seLogueo(nameFile)):
         ChecarExpiracion.checarSiExpiro(nameFile)
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
-        result = Contacto.eliminarQYS(datosDeSesion['idToken'], key)
-        if (result['error'] == False):
-            messages.success(request, result['mensaje'])
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            result = Contacto.eliminarQYS(datosDeSesion['idToken'], key)
+            if (result['error'] == False):
+                messages.success(request, result['mensaje'])
+            else:
+                messages.error(request, result['mensaje'])
+            return redirect('vistaQuejasSugerencias')
         else:
-            messages.error(request, result['mensaje'])
-        return redirect('vistaQuejasSugerencias')
+            return redirect('cuentaInhabilitada')
     else:
         messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
         return redirect('inicio')
@@ -250,12 +262,15 @@ def eliminarUsuario(request, key):
     if (ChecarExpiracion.seLogueo(nameFile)):
         ChecarExpiracion.checarSiExpiro(nameFile)
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
-        result = Usuarios.eliminarUsuario(datosDeSesion['idToken'], key)
-        if (result['error'] == False):
-            messages.success(request, result['mensaje'])
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            result = Usuarios.eliminarUsuario(datosDeSesion['idToken'], key)
+            if (result['error'] == False):
+                messages.success(request, result['mensaje'])
+            else:
+                messages.error(request, result['mensaje'])
+            return redirect('vistaSubadministradores')
         else:
-            messages.error(request, result['mensaje'])
-        return redirect('vistaSubadministradores')
+            return redirect('cuentaInhabilitada')
     else:
         messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
         return redirect('inicio')
