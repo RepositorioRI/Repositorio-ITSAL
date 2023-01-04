@@ -194,3 +194,18 @@ def vistaQuejasSugerencias(request):
 
 def vistaDocumentosTodos(request):
     return render(request,'admin/vistaDocumentos.html')
+
+def eliminarQYS(request, key):
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        result = Contacto.eliminarQYS(datosDeSesion['idToken'], key)
+        if (result['error'] == False):
+            messages.success(request, result['mensaje'])
+        else:
+            messages.error(request, result['mensaje'])
+        return redirect('vistaQuejasSugerencias')
+    else:
+        messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
+        return redirect('inicio')

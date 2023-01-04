@@ -46,3 +46,18 @@ class Contacto():
             result['mensaje'] = 'No se obtuvieron las quejas y sugerencias de la base de datos!!'
             print(e)
             return result
+    
+    @staticmethod
+    def eliminarQYS(idToken, key):
+        result = dict()
+        try:
+            response = AF.getDataBase().child("quejaSugerencia").child(key).remove(idToken)
+            result['error'] = False
+            result['mensaje'] = 'Se elimino con exitó!!'
+            return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'No se pudo eliminar el registro!!'
+            print(e)
+            return result
+
