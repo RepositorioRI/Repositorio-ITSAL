@@ -9,7 +9,7 @@
             <div class="card-header mt-2 mb-4">
                 <h5 class="fw-bold" >Quejas / Sugerencias RI - ITSAL</h5>
             </div>
-            <table class="table table-striped table-hover tb-datos" id="miTabla">
+            <table class="table table-striped table-hover" id="miTabla">
                 <thead>
                   <tr>
                     <th scope="col">Nombre</th>
@@ -74,9 +74,11 @@
 
     // Assign data to modal
     //$('#staticBackdropLabel').text(nombre);
-    $('#staticBackdrop p:nth-child(1)').text('Nombre: ' + nombre);
-    $('#staticBackdrop p:nth-child(2)').text('Correo: ' + correo);
-    $('#staticBackdrop p:nth-child(3)').html('<p>' + comentario + '</p>');
+    $('#staticBackdrop p:nth-child(1)').html('<b>Nombre: </b>' + nombre);
+    $('#staticBackdrop p:nth-child(2)').html('<b>Correo: </b>' + correo);
+   
+
+    $('#staticBackdrop p:nth-child(3)').css({'word-wrap': 'break-word'}).html('<b>Comentario:</b> ' + comentario);
   });
 });
 </script>
