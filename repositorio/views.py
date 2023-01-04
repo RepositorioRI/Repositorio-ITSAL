@@ -202,7 +202,7 @@ def vistaSubadministradores(request):
             })
         else:
             messages.error(request, 'No tiene permisos para acceder a esta ruta')
-            return redirect('inicio')
+            return redirect('logout')
     else:
         messages.error(request, 'No tiene permisos para acceder a esta ruta')
         return redirect('inicio')
