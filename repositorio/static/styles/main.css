@@ -354,3 +354,12 @@
     background-color: #002F6c!important;
     color: #fff!important;
   }
+
+  /* estilo ancla en las td de la tabla */
+  /*.td-a{
+    text-decoration: none!important;
+  }*/
+
+  .tr-a a{
+    text-decoration: none!important;
+  }

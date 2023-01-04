@@ -28,13 +28,13 @@
                     </thead>
                     <tbody>
                       {% for documento in listaDocumentos %}
-                      <tr  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        <td>{{ documento.title }}</a></td>
-                        <td>{{ documento.date }}</td>
-                        <td>{{ documento.creator|truncatechars:50 }}</td>
-                        <td>{{ documento.career }}</td>
-                        <td>{{ documento.type }}</td>
-                        <td>{{ documento.typeProject }}</td>
+                      <tr  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="tr-a">
+                        <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.title }}</a></td>
+                        <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.date }}</a></td>
+                        <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.creator|truncatechars:50 }}</a></td>
+                        <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.career }}</a></td>
+                        <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.type }}</a></td>
+                        <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.typeProject }}</a></td>
                         <td><a class="btn btn-danger btn-sm me-2" href="" data-toggle="tooltip" title="Eliminar documento"><i class="fa-solid fa-trash"></i></a>
                         <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Editar documento"><i class="fa-solid fa-user-pen"></i></a> </td>
                       </tr>
