@@ -158,3 +158,24 @@ class Documento:
             result['error'] = True
             result['mensaje'] = 'No puede registrar un proyecto externo sin su licencia externa'
             return result
+    
+    @staticmethod
+    def getDocumentos(idToken):
+        result = dict()
+        try:
+            all_Documentos = AF.getDataBase().child('proyecto').get(idToken)
+            listaDocumentos = list()
+            data = dict()
+            for qys in all_Documentos.each():
+                data = qys.val()
+                data['key'] = qys.key()
+                listaDocumentos.append(data)
+            result['listaDocumentos'] = listaDocumentos
+            #print(listaQYS)
+            result['error'] = False
+            return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'No se obtuvieron los documentos en la base de datos!!'
+            print(e)
+            return result

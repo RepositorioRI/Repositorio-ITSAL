@@ -73,12 +73,14 @@ def inicioAdminSubadmin(request):
         if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
             cantidadDeUsuarios = 0 #Iniciamos la variable para poder mandarla
             cantidadDeDocumentos = Documento.contarDocumentos(nameFile)
+            cantidadDeQYS = Contacto.contarQYS(nameFile)
             if (datosDeSesion['role'] == 'Administrador'):# si es administrador 
                 cantidadDeUsuarios = Usuarios.contarUsuarios(nameFile)# entonces cuentame los usuarios
             return render(request,'admin/inicioAdminSubadmin.html', {# redirige a la plantilla donde pertenece esta funcion
                 'datosDeSesion': datosDeSesion,# mandamos los datos de sesion para usarlo en la plantilla
                 'cantidadDeUsuarios': cantidadDeUsuarios,# mandamos la cantidad de usuarios a la plantilla
-                'cantidadDeDocumentos': cantidadDeDocumentos
+                'cantidadDeDocumentos': cantidadDeDocumentos,
+                'cantidadDeQYS': cantidadDeQYS
             })
         else:
             return redirect('cuentaInhabilitada')
@@ -237,7 +239,26 @@ def vistaQuejasSugerencias(request):
         
 
 def vistaDocumentosTodos(request):
-    return render(request,'admin/vistaDocumentos.html')
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            result = Documento.getDocumentos(datosDeSesion['idToken'])
+            if (result['error'] == False):
+                listaDocumentos = result['listaDocumentos']
+            else:
+                listaDocumentos = list()
+                messages.error(request, result['mensaje'])
+            return render(request,'admin/vistaDocumentos.html', {
+                'datosDeSesion': datosDeSesion,
+                'listaDocumentos': listaDocumentos
+            })
+        else:
+            return redirect('cuentaInhabilitada')
+    else:
+        messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
+        return redirect('inicio')
 
 def eliminarQYS(request, key):
     nameFile = request.COOKIES.get('localId')

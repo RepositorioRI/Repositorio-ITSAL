@@ -111,8 +111,8 @@ class UsuarioEditarForm(forms.Form):#formulario para la gestion de usuarios
     A = 'Aceptado'
     P = 'Pendiente'
     STATE_CHOICES = [
-        (A, "Aceptado"),
-        (P, "Pendiente")
+        (A, "Habilitado"),
+        (P, "Inhabilitado")
     ]
 
     name = forms.CharField(label='Nombre', max_length=50, required=True, 

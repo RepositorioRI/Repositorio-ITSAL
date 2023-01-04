@@ -27,10 +27,10 @@
                     <td>{{ user.email }}</td>
                     <td>
                       {% if user.state == 'Pendiente' %}
-                      <span class="badge text-bg-danger">Pendiente</span>
+                      <span class="badge text-bg-danger">Inhabilitada</span>
                       {% endif %}
                       {% if user.state == 'Aceptado' %}
-                      <span class="badge text-bg-success">Aceptado</span>
+                      <span class="badge text-bg-success">Habilitada</span>
                       {% endif %}
                     </td>
                     <td>

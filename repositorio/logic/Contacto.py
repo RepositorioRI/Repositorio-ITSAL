@@ -1,3 +1,4 @@
+import json
 from repositorio.logic.atributosFirebase import AF
 from django.utils.safestring import mark_safe
 
@@ -60,4 +61,18 @@ class Contacto():
             result['mensaje'] = 'No se pudo eliminar el registro!!'
             print(e)
             return result
+
+    @staticmethod
+    def contarQYS(nameFile):#este metodo retorna la cantidad de usuarios en la base de datos
+        datosDeSesion = Contacto.devolverTodosLosDatosSesion(nameFile)
+        qys = AF.getDataBase().child('quejaSugerencia').get(datosDeSesion['idToken']).val()
+        cantidadDeQYS = len(qys)
+        return cantidadDeQYS
+
+    @staticmethod
+    def devolverTodosLosDatosSesion(nameFile):#aqui abrimos el json con los datos de session y 
+        #lo retornamos para obtener los datos para otros metodos
+        with open(nameFile + '.json') as file:
+            data = json.load(file)
+            return data
 
