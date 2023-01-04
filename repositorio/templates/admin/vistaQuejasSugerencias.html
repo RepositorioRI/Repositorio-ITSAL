@@ -20,11 +20,11 @@
                 </thead>
                 <tbody>
                   {% for QYS in listaQYS %}
-                  <tr  data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-comentario="{{ QYS.comment }}">
-                    <td>{{ QYS.name }}</td>
-                    <td>{{ QYS.email }}</td>
-                    <td>{{ QYS.comment|truncatechars:50 }}</td>
-                    <td><a class="btn btn-danger btn-sm" href="" data-toggle="tooltip" title="Descargar documento"><i class="fa-solid fa-trash"></i></a></td>
+                  <tr>
+                    <td data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-comentario="{{ QYS.comment }}" data-name="{{ QYS.name }}" data-email="{{ QYS.email }}">{{ QYS.name }}</td>
+                    <td data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-comentario="{{ QYS.comment }}" data-name="{{ QYS.name }}" data-email="{{ QYS.email }}">{{ QYS.email }}</td>
+                    <td data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-comentario="{{ QYS.comment }}" data-name="{{ QYS.name }}" data-email="{{ QYS.email }}">{{ QYS.comment|truncatechars:50 }}</td>
+                    <td><a class="btn btn-danger btn-sm" onclick="mensajeConfirmar( '{{ QYS.key }}' )" data-toggle="tooltip" title="Descargar documento"><i class="fa-solid fa-trash"></i></a></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -66,10 +66,10 @@
 <script>
   $(document).ready(function () {
   // Bind click event to each row
-  $('#miTabla tbody tr').on('click', function () {
+  $('#miTabla tbody tr td').on('click', function () {
     // Get data from table row
-    var nombre = $(this).find('td:nth-child(1)').text();
-    var correo = $(this).find('td:nth-child(2)').text();
+    var nombre = $(this).data('name');
+    var correo = $(this).data('email');
     var comentario = $(this).data('comentario');
 
     // Assign data to modal
@@ -79,5 +79,50 @@
     $('#staticBackdrop p:nth-child(3)').html('<p>' + comentario + '</p>');
   });
 });
+</script>
+{% endblock %}
+
+{% block mensajeConfirmacion %}
+<script>
+  function mensajeConfirmar(key) {
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success me-3',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+
+  swalWithBootstrapButtons.fire({
+    title: '¿Estas seguro?',
+    text: "¡Esto no se podra revertir!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Si, eliminar!',
+    cancelButtonText: 'No, cancelar!',
+    reverseButtons: false,
+    allowOutsideClick: false,
+    background:'#1B396A',
+    color:'#fff',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      //console.log(key)
+      //return true
+      window.location.href = "/eliminarQYS/" + key
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      swalWithBootstrapButtons.fire({
+        title: 'Cancelado',
+        text: 'Su registro esta a salvo!! :)',
+        icon: 'error',
+        background:'#1B396A',
+        color:'#fff',
+      })
+      //return false
+    }
+  })
+}
 </script>
 {% endblock %}
