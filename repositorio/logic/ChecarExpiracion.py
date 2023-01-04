@@ -27,7 +27,7 @@ class ChecarExpiracion():#la logica por parte del token y expiracion
             return True#si existe la cookie y el archivo que retorne un true
         else:
             return False#si no que retorne un false
-    
+
     @staticmethod 
     def checarSiExpiro(nameFile):#este metodo es para checar si el token ya expiro
         datosDeSesion = ChecarExpiracion.devolverTodosLosDatosSesion(nameFile)#obtenemos todos los datos de la sesion

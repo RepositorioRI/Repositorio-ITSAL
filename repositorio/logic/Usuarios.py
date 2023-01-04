@@ -173,6 +173,18 @@ class Usuarios:
         #esto se ejecuta si el usuario cerro sesion
         os.remove(nameFile + '.json')
 
+    @staticmethod
+    def verificarEstado(nameFile, idToken):
+        try:
+            response = AF.getDataBase().child('usuario').child(nameFile).get(idToken).val()
+            #print(response['state'])
+            if response['state'] == 'Aceptado':
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
 
     
 
