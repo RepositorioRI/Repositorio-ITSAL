@@ -14,7 +14,8 @@ urlpatterns = [
        path('vistaSubadministradores/', views.vistaSubadministradores, name="vistaSubadministradores"),
        path('vistaQuejasSugerencias/', views.vistaQuejasSugerencias, name="vistaQuejasSugerencias"),
        path('vistaDocumentos/', views.vistaDocumentosTodos, name="vistaDocumentos"),
-       path('eliminarQYS/<str:key>', views.eliminarQYS, name="eliminarQYS")
+       path('eliminarQYS/<str:key>', views.eliminarQYS, name="eliminarQYS"),
+       path('eliminarUsuario/<str:key>', views.eliminarUsuario, name="eliminarUsuario")
        
 ]
 

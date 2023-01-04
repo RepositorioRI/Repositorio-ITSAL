@@ -99,6 +99,69 @@ class Usuarios:
             return data
     
     @staticmethod
+    def obtenerUsuarios(idToken):
+        result = dict()
+        try:
+            all_Usuarios = AF.getDataBase().child('usuario').get(idToken)
+            listaUsuarios = list()
+            data = dict()
+            for user in all_Usuarios.each():
+                data = user.val()
+                data['key'] = user.key()
+                listaUsuarios.append(data)
+            result['listaUsuarios'] = listaUsuarios
+            #print(listaQYS)
+            result['error'] = False
+            return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'No se obtuvieron los usuarios de la base de datos!!'
+            print(e)
+            return result
+    
+    @staticmethod
+    def eliminarUsuario(idToken, key):
+        result = dict()
+        try:
+            print('entro aqui')
+            print(key)
+            response = AF.getDataBase().child('usuario').child(key).remove(idToken)
+            print(response)
+            if (os.path.isfile(key + '.json')):
+                Usuarios.eliminarArchivoSesion(key)
+            result['error'] = False
+            result['mensaje'] = 'Se elimino con exitó!!'
+            return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'No se elimino el usuario en la base de datos!!'
+            print(e)
+            return result
+
+    @staticmethod
+    def editarUsuario(data, idToken):
+        result = dict()
+        nuevaData = dict()
+        try:
+            nuevaData['name'] = data['name']
+            nuevaData['surnames'] = data['surnames']
+            nuevaData['state'] = data['state']
+            response = AF.getDataBase().child('usuario').child(data['key']).update(nuevaData, idToken)
+            if (response['name']): 
+                result['error'] = False
+                result['mensaje'] = 'Se edito el usuario con exito!!'
+                return result
+            else:
+                result['error'] = True
+                result['mensaje'] = 'Ocurrio un error al intentar editar el usuario!!'
+                return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'No se pudo editar el usuario!!'
+            print(e)
+            return result
+
+    @staticmethod
     def contarUsuarios(nameFile):#este metodo retorna la cantidad de usuarios en la base de datos
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
         users = AF.getDataBase().child('usuario').get(datosDeSesion['idToken']).val()

@@ -106,3 +106,20 @@ class ContactoForm(forms.Form):#formulario para el login
     comment = forms.CharField(label='Comentario', max_length=1000, required=True, 
         validators=[validators.RegexValidator("^[a-zA-ZÑñáéíóú ]{20,1000}$", message="Favor de introducir bien su descripción, debe tener como minimo 20 caracteres y no debe exceder de los 1000 caracteres. Se aceptan solamente letras, numeros, puntos(.), comas(,) y acentos")],
         widget=forms.Textarea(attrs={'class': 'form-control mb-3', 'placeholder': 'Escriba su comentario aquí', 'style': 'height: 10em;'}))
+
+class UsuarioEditarForm(forms.Form):#formulario para la gestion de usuarios
+    A = 'Aceptado'
+    P = 'Pendiente'
+    STATE_CHOICES = [
+        (A, "Aceptado"),
+        (P, "Pendiente")
+    ]
+
+    name = forms.CharField(label='Nombre', max_length=50, required=True, 
+        validators=[validators.RegexValidator('^[a-zA-ZÑñáéíóú ]{3,50}$', message="Favor de introducir bien su nombre y no exceder a los 50 caracteres")],
+        widget=forms.TextInput(attrs={'class': 'form-control mb-3'}))
+    surnames = forms.CharField(label='Apellidos', max_length=50, required=True, 
+        validators=[validators.RegexValidator('^[a-zA-ZÑñáéíóú ]{3,50}$', message="Favor de introducir bien su apellido y no exceder a los 50 caracteres")],
+        widget=forms.TextInput(attrs={'class': 'form-control mb-3'}))
+    state = forms.ChoiceField(label='Estado', required=True, choices=STATE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select mb-3'}))

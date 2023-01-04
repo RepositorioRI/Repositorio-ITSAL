@@ -42,7 +42,7 @@ def login(request):
                     return response
                         #return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
                         #return redirect('/inicioAdminSubadmin/'+result['mensaje'])
-            else:# si hubo error en la respuesta
+                else:# si hubo error en la respuesta
                     messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
         else:#si no hay nada en post
             form = LoginForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
@@ -170,7 +170,39 @@ def vistaMetadatos(request):
    return render(request,'public/vistaMetadatos.html')
 
 def vistaSubadministradores(request):
-    return render(request,'admin/vistaSubadministradores.html')
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        result = Usuarios.obtenerUsuarios(datosDeSesion['idToken'])
+        form = UsuarioEditarForm()
+        if (result['error'] == False):
+            listaUsuarios = result['listaUsuarios']
+            if (request.method == 'POST'):
+                form = UsuarioEditarForm(request.POST)
+                if (form.is_valid()):
+                    data = request.POST.dict()#usar los datos como un diccionario
+                    result2 = Usuarios.editarUsuario(data, datosDeSesion['idToken'])
+                    if result2['error'] == False:
+                        messages.success(request, result2['mensaje'])
+                        result = Usuarios.obtenerUsuarios(datosDeSesion['idToken'])
+                        listaUsuarios = result['listaUsuarios']
+                    else:
+                        messages.error(request, result2['mensaje'])
+                    #print(data)
+            #UsuarioEditarForm
+        else:
+            listaUsuarios = list()
+            messages.error(request, result['mensaje'])
+        return render(request,'admin/vistaSubadministradores.html', {
+            'datosDeSesion': datosDeSesion,
+            'listaUsuarios': listaUsuarios,
+            'form': form
+        })
+    else:
+        messages.error(request, 'No tiene permisos para acceder a esta ruta')
+        return redirect('inicio')
+
         
 def vistaQuejasSugerencias(request):
     nameFile = request.COOKIES.get('localId')
@@ -206,6 +238,21 @@ def eliminarQYS(request, key):
         else:
             messages.error(request, result['mensaje'])
         return redirect('vistaQuejasSugerencias')
+    else:
+        messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
+        return redirect('inicio')
+
+def eliminarUsuario(request, key):
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        result = Usuarios.eliminarUsuario(datosDeSesion['idToken'], key)
+        if (result['error'] == False):
+            messages.success(request, result['mensaje'])
+        else:
+            messages.error(request, result['mensaje'])
+        return redirect('vistaSubadministradores')
     else:
         messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
         return redirect('inicio')
