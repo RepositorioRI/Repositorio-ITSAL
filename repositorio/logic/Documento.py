@@ -179,3 +179,64 @@ class Documento:
             result['mensaje'] = 'No se obtuvieron los documentos en la base de datos!!'
             print(e)
             return result
+    
+    @staticmethod
+    def getDocumento(key):
+        result = dict()
+        try:
+            documento = AF.getDataBase().child('proyecto').child(key).get().val()
+            #print(documento)
+            try:
+                archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+                #print('encontro el archivo')
+                try:
+                    linkArchivo = AF.getStorage().child("pdf/" + key + "/" + archivo['file']).get_url('')
+                    #print(linkArchivo)
+                    if ('Licencia' in documento):
+                        try:
+                            #print('existe licencia')
+                            licencia = AF.getDataBase().child('licencia').child(documento['Licencia']).get().val()
+                            if (licencia['file']):
+                                try:
+                                    linkLicencia = AF.getStorage().child("pdf/" + key + "/" + licencia['file']).get_url('')
+                                    result['error'] = False
+                                    result['licencia'] = licencia
+                                    result['documento'] = documento
+                                    result['archivo'] = archivo
+                                    result['linkArchivo'] = linkArchivo
+                                    result['linkLicencia'] = linkLicencia
+                                    return result
+                                except Exception as e:
+                                    result['error'] = True
+                                    result['mensaje'] = 'No se pudo obtener la licencia del storage!!'
+                                    print(e)
+                                    return result
+                        except Exception as e:
+                            #print('entro aqui')
+                            result['error'] = True
+                            result['mensaje'] = 'No se encontro la licencia externa asociado al proyecto!!'
+                            print(e)
+                            return result
+                    else:
+                        #print('Sin licencia externa')
+                        result['error'] = False
+                        result['documento'] = documento
+                        result['archivo'] = archivo
+                        result['linkArchivo'] = linkArchivo
+                        return result
+                except Exception as e:
+                    result['error'] = True
+                    result['mensaje'] = 'No se obtuvo el link del archivo!!'
+                    print(e)
+                    return result
+            except Exception as e:
+                result['error'] = True
+                result['mensaje'] = 'No hay archivo para este proyecto!!'
+                print(e)
+                return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'Ocurrio un error al obtener el proyecto!!'
+            print(e)
+            #print('entro en la excepcion')
+            return result

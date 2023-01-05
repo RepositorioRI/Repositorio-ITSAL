@@ -172,8 +172,51 @@ def agregarDocumentos(request):
         return redirect('inicio')
 
 def vistaDocumento(request, key):
-    print(key)
-    return render(request,'public/vistaDocumento.html')
+    result = Documento.getDocumento(key)
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            if (result['error'] == False):
+                if 'licencia' in result:
+                    licencia = result['licencia']
+                    linkLicencia = result['linkLicencia']
+                else:
+                    licencia = 0
+                    linkLicencia = 0
+                return render(request,'public/vistaDocumento.html', {
+                    'datosDeSesion': datosDeSesion,
+                    'documento': result['documento'],
+                    'archivo': result['archivo'],
+                    'licencia': licencia,
+                    'linkArchivo': result['linkArchivo'],
+                    'linkLicencia': linkLicencia
+                })
+            else:
+                messages.error(request, result['mensaje'])
+                return render(request,'public/vistaDocumento.html')
+        else:
+            return redirect('cuentaInhabilitada')
+    else:
+        if (result['error'] == False):
+            if 'licencia' in result:
+                licencia = result['licencia']
+                linkLicencia = result['linkLicencia']
+            else:
+                licencia = 0
+                linkLicencia = 0
+            return render(request,'public/vistaDocumento.html', {
+                'documento': result['documento'],
+                'archivo': result['archivo'],
+                'licencia': licencia,
+                'linkArchivo': result['linkArchivo'],
+                'linkLicencia': linkLicencia
+            })
+        else:
+            messages.error(request, result['mensaje'])
+            return render(request,'public/vistaDocumento.html')
+        
 
 def vistaMetadatos(request):
    return render(request,'public/vistaMetadatos.html')
