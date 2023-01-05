@@ -402,3 +402,7 @@ def cuentaInhabilitada(request):
         #return redirect('login')#que me rediriga al login
     else:#raro, pero si entra aqui, entonces el usuario intento cerrar sesion pero nunca se logueo
         return redirect('inicio')#por lo que lo dirigimos a la pagina de index
+
+
+def vistaDocumentosCarrera(request):
+    return render(request,'public/vistaDocumentosCarrera.html')

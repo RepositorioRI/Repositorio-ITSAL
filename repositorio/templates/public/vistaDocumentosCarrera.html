@@ -1,0 +1,71 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'components/navbar.html '%}
+<main>
+    <div class="container mt-4 mb-4">
+        {% include 'components/titleRI.html' %}
+        <div class="row mt-4">
+          <!-- TODO: Inicia contenido izquierdo (documentos por carrera)-->
+            <aside class="col-md-3 d-flex">
+               <div class="card w-100 shadow-lg">
+                <div class="card-header bg-secondary text-white">
+                    <h2 class="fs-6  ">
+                        <b>Documentos por carrera:</b>
+                    </h2>
+                </div>
+                <div class="list-group p-3">
+                    <a href="vistaDocumentoCarrera" class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Química <span class="badge text-bg-secondary float-end">0</span></a>
+                    <a href="#" class="list-group-item text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en Acuicultura <span class="badge text-bg-secondary float-end">0</span></a>
+                    <a href="#" class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Mecánica <span class="badge text-bg-secondary float-end">0</span></a>
+                    <a href="#" class="list-group-item text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Electrónica <span class="badge text-bg-secondary float-end">0</span></a>
+                    <a href="#"  class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en Gestión Empresarial <span class="badge text-bg-secondary float-end">0</span></a>
+                    <a href="#"  class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en TIC'S <span class="badge text-bg-secondary float-end">0</span></a>
+                  </div>
+               </div>
+            </aside>
+            <!-- TODO: Termina contenido izquierdo (documentos por carrera)-->
+    
+            <!-- TODO: Inicia contenido central (documentos del RI ITSAL)-->
+            <div class="col-md-9 d-flex sm-mt-2" id="documents">
+                <div class="card w-100 shadow-lg ">
+                  <div class="card-header bg-secondary text-white">
+                    <h2 class="fs-6">
+                      <b> Documentos ING Quimica</b>
+                    </h2>
+                  </div>
+                  <div class="card-body p-3 table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Fecha de publicacion</th>
+                          <th scope="col">Titulo</th>
+                          <th scope="col">Autor(es)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>@mdo</td>
+                        </tr>
+                        <tr>
+                          <td>Jacob</td>
+                          <td>Thornton</td>
+                          <td>@fat</td>
+                        </tr>
+                      </tbody>
+                    </table>
+              
+                  </div>
+                </div>
+              </div>
+              
+              
+            <!-- TODO: Termina contenido central (documentos del RI ITSAL)-->
+          </div>
+    </div>
+</main>
+{% include 'components/footer.html '%}
+{% endblock %}

@@ -79,16 +79,11 @@
         </li>
         {% endif %}
       </ul>
-      {% if datosDeSesion == None %}
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-        <button class="btn btn-secondary" type="submit">Buscar</button>
-      </form>
-      {% endif %}
+      
       {% if datosDeSesion.name %}
       <ul class="navbar-nav me mb-lg-0 " id="ul-navbar-riitsal">
           <li class="nav-item">
-              <a class="nav-link text-white hover-navbar-riitsal " href="#"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;{{datosDeSesion.name}}</a>
+              <a class="nav-link text-white  " href="#"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;{{datosDeSesion.name}}</a>
           </li>
         <li class="nav-item">
           <a class="nav-link text-white hover-navbar-riitsal " href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;Salir</a>
