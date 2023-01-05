@@ -356,10 +356,8 @@
   }
 
   /* estilo ancla en las td de la tabla */
-  /*.td-a{
+  
+  .td-a{
     text-decoration: none!important;
-  }*/
-
-  .tr-a a{
-    text-decoration: none!important;
+    color: inherit
   }

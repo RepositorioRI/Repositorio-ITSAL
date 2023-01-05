@@ -28,7 +28,7 @@
                     </thead>
                     <tbody>
                       {% for documento in listaDocumentos %}
-                      <tr  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="tr-a">
+                      <tr  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.title }}</a></td>
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.date }}</a></td>
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.creator|truncatechars:50 }}</a></td>
