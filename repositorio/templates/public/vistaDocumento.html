@@ -53,14 +53,14 @@
                 <tbody>
                   <tr>
                     <td>{{ archivo.file }}</td>
-                    <td>{{ archivo.sizeFile }}</td>
+                    <td>{{ megabits_redondeados }} MB</td>
                     <td>{{ archivo.format }}</td>
                     <td><a class="btn btn-secondary btn-sm" href="{{ linkArchivo }}" data-toggle="tooltip" title="Descargar documento"><i class="fa-solid fa-download"></i></a></td>
                   </tr>
                 </tbody>
               </table>
              <div class="float-end">
-                <a href="/vistaMetadatos" class="btn btn-secondary mt-4 btn-sm ">Mostrar registro Dubblin Core</a>
+                <a href="/vistaMetadatos/{{ keyDocumento }}" class="btn btn-secondary mt-4 btn-sm ">Mostrar registro Dubblin Core</a>
              </div>
         </div>
         {% if licencia != 0 %}

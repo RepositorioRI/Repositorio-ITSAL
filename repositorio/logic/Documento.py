@@ -189,6 +189,8 @@ class Documento:
             try:
                 archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
                 #print('encontro el archivo')
+                megabits = archivo['sizeFile'] / 1048576
+                megabits_redondeados = round(megabits, 2)
                 try:
                     linkArchivo = AF.getStorage().child("pdf/" + key + "/" + archivo['file']).get_url('')
                     #print(linkArchivo)
@@ -205,6 +207,8 @@ class Documento:
                                     result['archivo'] = archivo
                                     result['linkArchivo'] = linkArchivo
                                     result['linkLicencia'] = linkLicencia
+                                    result['keyDocumento'] = key
+                                    result['megabits_redondeados'] = megabits_redondeados
                                     return result
                                 except Exception as e:
                                     result['error'] = True
@@ -223,6 +227,8 @@ class Documento:
                         result['documento'] = documento
                         result['archivo'] = archivo
                         result['linkArchivo'] = linkArchivo
+                        result['keyDocumento'] = key
+                        result['megabits_redondeados'] = megabits_redondeados
                         return result
                 except Exception as e:
                     result['error'] = True
