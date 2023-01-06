@@ -447,3 +447,6 @@ def vistaDocumentosCarrera(request, career):
             else:
                 messages.error(request, result2['mensaje'])
             return render(request,'public/vistaDocumentosCarrera.html')
+
+def vistaDocumentosCategorias(request):
+    return render(request,'public/vistaDocumentosCategorias.html')
