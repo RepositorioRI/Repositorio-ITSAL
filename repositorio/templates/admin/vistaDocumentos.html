@@ -35,7 +35,7 @@
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.career }}</a></td>
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.type }}</a></td>
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.typeProject }}</a></td>
-                        <td><a class="btn btn-danger btn-sm me-2" href="" data-toggle="tooltip" title="Eliminar documento"><i class="fa-solid fa-trash"></i></a>
+                        <td><a class="btn btn-danger btn-sm me-2" onclick="confirmarEliminacion('{{documento.key}}')" data-toggle="tooltip" title="Eliminar documento"><i class="fa-solid fa-trash"></i></a>
                         <a href="" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Editar documento"><i class="fa-solid fa-user-pen"></i></a> </td>
                       </tr>
                       {% endfor %}
@@ -61,10 +61,12 @@
     // Setup - add a text input to each footer cell
     $('#miTabla tfoot th').each(function () {
         var title = $(this).text();
-        if (title != 'Acciones')
+        if (title == 'Fecha de publicación')
+          $(this).html('<input type="date" class="form-control" placeholder="Buscar por ' + title + '" />');
+        else if (title != 'Acciones' && title != 'Fecha de publicación')
           $(this).html('<input type="text" class="form-control" placeholder="Buscar por ' + title + '" />');
         else
-          $(this).html('<input type="text" class="form-control d-none" placeholder="Buscar por ' + title + '" />');
+        $(this).html('<input type="text" class="form-control d-none" placeholder="Buscar por ' + title + '" />');
     });
  
     // DataTable
@@ -88,5 +90,50 @@
         },
     });
 });
+</script>
+{% endblock %}
+
+{% block mensajeConfirmacion %}
+<script>
+  function confirmarEliminacion(key) {
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success me-3',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+
+  swalWithBootstrapButtons.fire({
+    title: '¿Estas seguro?',
+    text: "¡Esta a punto de eliminar un registro!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Si!',
+    cancelButtonText: 'No!',
+    reverseButtons: false,
+    allowOutsideClick: false,
+    background:'#1B396A',
+    color:'#fff',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      //console.log(key)
+      //return true
+      window.location.href = "/eliminarDocumento/" + key
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      swalWithBootstrapButtons.fire({
+        title: 'Cancelado',
+        text: 'Su registro esta a salvo!! :)',
+        icon: 'error',
+        background:'#1B396A',
+        color:'#fff',
+      })
+      //return false
+    }
+  })
+}
 </script>
 {% endblock %}

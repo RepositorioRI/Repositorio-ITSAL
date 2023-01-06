@@ -186,12 +186,37 @@ def agregarDocumentos(request):
         return redirect('inicio')
 
 def vistaDocumento(request, key):
-    result = Documento.getDocumento(key)
-    nameFile = request.COOKIES.get('localId')
-    if (ChecarExpiracion.seLogueo(nameFile)):
-        ChecarExpiracion.checarSiExpiro(nameFile)
-        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
-        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+    print(key)
+    if (Documento.esKeyValida(key)):
+        result = Documento.getDocumento(key)
+        nameFile = request.COOKIES.get('localId')
+        if (ChecarExpiracion.seLogueo(nameFile)):
+            ChecarExpiracion.checarSiExpiro(nameFile)
+            datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+            if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+                if (result['error'] == False):
+                    if 'licencia' in result:
+                        licencia = result['licencia']
+                        linkLicencia = result['linkLicencia']
+                    else:
+                        licencia = 0
+                        linkLicencia = 0
+                    return render(request,'public/vistaDocumento.html', {
+                        'datosDeSesion': datosDeSesion,
+                        'documento': result['documento'],
+                        'archivo': result['archivo'],
+                        'licencia': licencia,
+                        'linkArchivo': result['linkArchivo'],
+                        'linkLicencia': linkLicencia,
+                        'keyDocumento': result['keyDocumento'],
+                        'megabits_redondeados': result['megabits_redondeados']
+                    })
+                else:
+                    messages.error(request, result['mensaje'])
+                    return render(request,'public/vistaDocumento.html')
+            else:
+                return redirect('cuentaInhabilitada')
+        else:
             if (result['error'] == False):
                 if 'licencia' in result:
                     licencia = result['licencia']
@@ -200,7 +225,6 @@ def vistaDocumento(request, key):
                     licencia = 0
                     linkLicencia = 0
                 return render(request,'public/vistaDocumento.html', {
-                    'datosDeSesion': datosDeSesion,
                     'documento': result['documento'],
                     'archivo': result['archivo'],
                     'licencia': licencia,
@@ -212,37 +236,41 @@ def vistaDocumento(request, key):
             else:
                 messages.error(request, result['mensaje'])
                 return render(request,'public/vistaDocumento.html')
-        else:
-            return redirect('cuentaInhabilitada')
     else:
-        if (result['error'] == False):
-            if 'licencia' in result:
-                licencia = result['licencia']
-                linkLicencia = result['linkLicencia']
-            else:
-                licencia = 0
-                linkLicencia = 0
-            return render(request,'public/vistaDocumento.html', {
-                'documento': result['documento'],
-                'archivo': result['archivo'],
-                'licencia': licencia,
-                'linkArchivo': result['linkArchivo'],
-                'linkLicencia': linkLicencia,
-                'keyDocumento': result['keyDocumento'],
-                'megabits_redondeados': result['megabits_redondeados']
-            })
-        else:
-            messages.error(request, result['mensaje'])
-            return render(request,'public/vistaDocumento.html')
-        
+        print('key invalida')
+        return redirect('paginaError')
 
 def vistaMetadatos(request, key):
-    result = Documento.getDocumento(key)
-    nameFile = request.COOKIES.get('localId')
-    if (ChecarExpiracion.seLogueo(nameFile)):
-        ChecarExpiracion.checarSiExpiro(nameFile)
-        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
-        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+    if (Documento.esKeyValida(key)):
+        result = Documento.getDocumento(key)
+        nameFile = request.COOKIES.get('localId')
+        if (ChecarExpiracion.seLogueo(nameFile)):
+            ChecarExpiracion.checarSiExpiro(nameFile)
+            datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+            if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+                if (result['error'] == False):
+                    if 'licencia' in result:
+                        licencia = result['licencia']
+                        linkLicencia = result['linkLicencia']
+                    else:
+                        licencia = 0
+                        linkLicencia = 0
+                    return render(request,'public/vistaMetadatos.html', {
+                        'datosDeSesion': datosDeSesion,
+                        'documento': result['documento'],
+                        'archivo': result['archivo'],
+                        'licencia': licencia,
+                        'linkArchivo': result['linkArchivo'],
+                        'linkLicencia': linkLicencia,
+                        'keyDocumento': result['keyDocumento'],
+                        'megabits_redondeados': result['megabits_redondeados']
+                    })
+                else:
+                    messages.error(request, result['mensaje'])
+                    return render(request,'public/vistaMetadatos.html')
+            else:
+                return redirect('cuentaInhabilitada')
+        else:
             if (result['error'] == False):
                 if 'licencia' in result:
                     licencia = result['licencia']
@@ -251,7 +279,6 @@ def vistaMetadatos(request, key):
                     licencia = 0
                     linkLicencia = 0
                 return render(request,'public/vistaMetadatos.html', {
-                    'datosDeSesion': datosDeSesion,
                     'documento': result['documento'],
                     'archivo': result['archivo'],
                     'licencia': licencia,
@@ -263,28 +290,9 @@ def vistaMetadatos(request, key):
             else:
                 messages.error(request, result['mensaje'])
                 return render(request,'public/vistaMetadatos.html')
-        else:
-            return redirect('cuentaInhabilitada')
     else:
-        if (result['error'] == False):
-            if 'licencia' in result:
-                licencia = result['licencia']
-                linkLicencia = result['linkLicencia']
-            else:
-                licencia = 0
-                linkLicencia = 0
-            return render(request,'public/vistaMetadatos.html', {
-                'documento': result['documento'],
-                'archivo': result['archivo'],
-                'licencia': licencia,
-                'linkArchivo': result['linkArchivo'],
-                'linkLicencia': linkLicencia,
-                'keyDocumento': result['keyDocumento'],
-                'megabits_redondeados': result['megabits_redondeados']
-            })
-        else:
-            messages.error(request, result['mensaje'])
-            return render(request,'public/vistaMetadatos.html')
+        print('key invalida')
+        return redirect('paginaError')
 
 def vistaSubadministradores(request):
     nameFile = request.COOKIES.get('localId')
@@ -419,34 +427,76 @@ def cuentaInhabilitada(request):
 
 
 def vistaDocumentosCarrera(request, career):
+    if (Documento.esCarreraValida(career)):
+        nameFile = request.COOKIES.get('localId')
+        if (ChecarExpiracion.seLogueo(nameFile)):
+            messages.error(request, 'No puedes acceder a esta pagina publica')
+            return redirect('inicioAdminSubadmin')
+        else:
+            result = Documento.contarPorCarrera()
+            result2 = Documento.getPorCarrera(career)
+            cantidadFilas = len(result2['tblCarrera'])
+            if (result['error'] == False and result2['error'] == False):
+                return render(request,'public/vistaDocumentosCarrera.html',{
+                    'countQuimica': result['countQuimica'],
+                    'countElectronica': result['countElectronica'],
+                    'countMecanica': result['countMecanica'],
+                    'countAcuicultura': result['countAcuicultura'],
+                    'countIGE': result['countIGE'],
+                    'countTICS': result['countTICS'],
+                    'tblCarrera': result2['tblCarrera'],
+                    'cantidadFilas': cantidadFilas,
+                    'career': career
+                })
+            else:
+                if (result['error'] == True and result2['error']):
+                    messages.error(request, result['mensaje'] + '\n' + result2['mensaje'])
+                elif (result['error'] == True):
+                    messages.error(request, result['mensaje'])
+                else:
+                    messages.error(request, result2['mensaje'])
+                return render(request,'public/vistaDocumentosCarrera.html')
+    else:
+        return redirect('paginaError')
+
+def vistaDocumentosCategorias(request, type):
+    if (Documento.esCategoriaValida(type)):
+        nameFile = request.COOKIES.get('localId')
+        if (ChecarExpiracion.seLogueo(nameFile)):
+            messages.error(request, 'No puedes acceder a esta pagina publica')
+            return redirect('inicioAdminSubadmin')
+        else:
+            result = Documento.getPorCategoria(type)
+            cantidadFilas = len(result['tblCategoria'])
+            if (result['error'] == False):
+                return render(request,'public/vistaDocumentosCategorias.html',{
+                    'tblCategoria': result['tblCategoria'],
+                    'cantidadFilas': cantidadFilas,
+                    'type': type
+                })
+            else:
+                messages.error(request, result['mensaje'])
+                return render(request,'public/vistaDocumentosCategorias.html')
+    else:
+        return redirect('paginaError')
+
+def eliminarDocumento(request, key):
     nameFile = request.COOKIES.get('localId')
     if (ChecarExpiracion.seLogueo(nameFile)):
-        messages.error(request, 'No puedes acceder a esta pagina publica')
-        return redirect('inicioAdminSubadmin')
-    else:
-        result = Documento.contarPorCarrera()
-        result2 = Documento.getPorCarrera(career)
-        cantidadFilas = len(result2['tblCarrera'])
-        if (result['error'] == False and result2['error'] == False):
-            return render(request,'public/vistaDocumentosCarrera.html',{
-                'countQuimica': result['countQuimica'],
-                'countElectronica': result['countElectronica'],
-                'countMecanica': result['countMecanica'],
-                'countAcuicultura': result['countAcuicultura'],
-                'countIGE': result['countIGE'],
-                'countTICS': result['countTICS'],
-                'tblCarrera': result2['tblCarrera'],
-                'cantidadFilas': cantidadFilas,
-                'career': career
-            })
-        else:
-            if (result['error'] == True and result['error']):
-                messages.error(request, result['mensaje'] + '\n' + result2['mensaje'])
-            elif (result['error'] == True):
-                messages.error(request, result['mensaje'])
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            result = Documento.eliminarDocumento(datosDeSesion['idToken'], key)
+            if (result['error'] == False):
+                messages.success(request, result['mensaje'])
             else:
-                messages.error(request, result2['mensaje'])
-            return render(request,'public/vistaDocumentosCarrera.html')
+                messages.error(request, result['mensaje'])
+            return redirect('vistaDocumentos')
+        else:
+            return redirect('cuentaInhabilitada')
+    else:
+        messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
+        return redirect('inicio')
 
-def vistaDocumentosCategorias(request):
-    return render(request,'public/vistaDocumentosCategorias.html')
+def paginaError(request):
+    return render(request, 'public/paginaError.html')

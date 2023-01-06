@@ -8,10 +8,11 @@
             <div class="card w-100 shadow-lg ">
               <div class="card-header bg-secondary text-white">
                 <h2 class="fs-6">
-                  <b>Categorias</b>
+                  <b>{{ type }}</b>
                 </h2>
               </div>
               <div class="card-body p-3 table-responsive">
+                {% if cantidadFilas > 0 %}
                 <table class="table table-hover" id="miTabla">
                   <thead>
                     <tr>
@@ -21,13 +22,26 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% for documento in tblCategoria %}
                     <tr onclick="redirectToPage('../vistaDocumento/{{documento.key}}')">
-                      <td>..</td>
-                      <td>..</td>
-                      <td>..</td>
+                      <td>{{ documento.date }}</td>
+                      <td>{{ documento.title }}</td>
+                      <td>{{ documento.creator }}</td>
                     </tr>
+                    {% endfor %}
                   </tbody>
+                  <tfoot>
+                    <th>Fecha de publicacion</th>
+                    <th>Titulo</th>
+                    <th>Autor(es)</th>
+                  </tfoot>
                 </table>
+                {% endif %}
+                {% if cantidadFilas == 0 %}
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                      <p class="alert alert-danger ">No hay documentos para esta categoria</p>
+                    </div>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -36,4 +50,42 @@
 
 
 {% include 'components/footer.html '%}
+<script type="application/javascript">
+  $(document).ready(function () {
+    // Setup - add a text input to each footer cell
+    $('#miTabla tfoot th').each(function () {
+        var title = $(this).text();
+        if (title == 'Fecha de publicacion')
+          $(this).html('<input type="date" class="form-control" placeholder="Buscar por ' + title + '" />');
+        else
+          $(this).html('<input type="text" class="form-control" placeholder="Buscar por ' + title + '" />');
+    });
+ 
+    // DataTable
+    var table = $('#miTabla').DataTable({
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/es-MX.json'
+        },
+        initComplete: function () {
+            // Apply the search
+            this.api()
+                .columns()
+                .every(function () {
+                    var that = this;
+ 
+                    $('input', this.footer()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+        },
+    });
+});
+</script>
+<script>
+  function redirectToPage(url) {
+    window.location.assign(url);
+  }
+</script>
 {% endblock %}
