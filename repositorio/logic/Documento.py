@@ -2,6 +2,7 @@
 from datetime import datetime
 import json
 from repositorio.logic.atributosFirebase import AF
+import asyncio
 
 
 class Documento:
@@ -261,6 +262,26 @@ class Documento:
             return result
     
     @staticmethod
+    def getPorCategoria(type):
+        result = dict()
+        try:
+            tblCategoria = AF.getDataBase().child("proyecto").order_by_child("type").equal_to(type).get()
+            listaCategorias = list()
+            data = dict()
+            for documento in tblCategoria.each():
+                data = documento.val()
+                data['key'] = documento.key()
+                listaCategorias.append(data)
+            result['tblCategoria'] = listaCategorias
+            result['error'] = False
+            return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'Error al obtener los proyectos de esa categoría!!'
+            print(e)
+            return result
+
+    @staticmethod
     def getDocumento(key):
         result = dict()
         try:
@@ -326,3 +347,45 @@ class Documento:
             print(e)
             #print('entro en la excepcion')
             return result
+    
+    @staticmethod
+    def esKeyValida(key):
+        try:
+            keys = AF.getDataBase().child('proyecto').get()
+            #print(keys)
+            for documento in keys.each():
+                cadaKey = documento.key()
+                if (cadaKey == key):
+                    return True
+            return False
+        except:
+            print('No se obtuvieron las keys')
+
+    @staticmethod
+    def esCarreraValida(career):
+        carreras = dict()
+        carreras['IQ'] = "Ing. Química"
+        carreras['IE'] = "Ing. Electrónica"
+        carreras['IM'] = "Ing. Mecánica"
+        carreras['IA'] = "Ing. Acuicultura"
+        carreras['IGE'] = "Ing. Gestión Empresarial"
+        carreras['ITICS'] = "Ing. TIC'S"
+
+        for clave in carreras:
+            if(carreras[clave] == career):
+                return True
+            #print(carreras[clave])
+        return False
+
+    @staticmethod
+    def esCategoriaValida(type):
+        categorias = dict()
+        categorias['RR'] = 'Reportes de residencia'
+        categorias['T'] = 'Tesis'
+        categorias['PRI'] = 'Proyectos integrales'
+
+        for clave in categorias:
+            if(categorias[clave] == type):
+                return True
+            #print(carreras[clave])
+        return False

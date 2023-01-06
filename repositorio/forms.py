@@ -33,19 +33,21 @@ class DocumentoForm(forms.Form):
     ITICS = "Ing. TIC'S"
     CAREER_CHOICES = [
         #estos valores son los que se muestran y por ende estos no son los que se capturan
-        (IQ, "Ing. Quimica"),
-        (IE, "Ing. Electronica"),
-        (IM, "Ing. Mecanica"),
+        (IQ, "Ing. Química"),
+        (IE, "Ing. Electrónica"),
+        (IM, "Ing. Mecánica"),
         (IA, "Ing. Acuicultura"),
-        (IGE, "Ing. Gestion Empresarial"),
+        (IGE, "Ing. Gestión Empresarial"),
         (ITICS, "Ing. TIC'S")
     ]
 
-    RR = 'Reporte de residencia'
+    RR = 'Reportes de residencia'
     T = 'Tesis'
+    PRI = 'Proyectos integrales'
     TYPE_CHOICES = [
-        (RR, "Reporte de residencia"),
-        (T, "Tesis")
+        (RR, "Reportes de residencia"),
+        (T, "Tesis"),
+        (PRI, "Proyectos integrales")
     ]
 
     E = 'Español'
