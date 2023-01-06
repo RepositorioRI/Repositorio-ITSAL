@@ -480,5 +480,23 @@ def vistaDocumentosCategorias(request, type):
     else:
         return redirect('paginaError')
 
+def eliminarDocumento(request, key):
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            result = Documento.eliminarDocumento(datosDeSesion['idToken'], key)
+            if (result['error'] == False):
+                messages.success(request, result['mensaje'])
+            else:
+                messages.error(request, result['mensaje'])
+            return redirect('vistaDocumentos')
+        else:
+            return redirect('cuentaInhabilitada')
+    else:
+        messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
+        return redirect('inicio')
+
 def paginaError(request):
     return render(request, 'public/paginaError.html')

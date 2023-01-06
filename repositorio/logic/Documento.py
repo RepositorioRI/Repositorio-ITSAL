@@ -389,3 +389,68 @@ class Documento:
                 return True
             #print(carreras[clave])
         return False
+    
+    @staticmethod
+    def eliminarDocumento(idToken, key):
+        result = dict()
+        try:
+            documento = AF.getDataBase().child('proyecto').child(key).get().val()
+            if 'Licencia' in documento:
+                try:
+                    licencia = AF.getDataBase().child('licencia').child(documento['Licencia']).get().val()
+                    try:
+                        AF.getStorage().delete("pdf/" + key + "/" + licencia['file'], idToken)
+                    except Exception as e:
+                        result['error'] = True
+                        result['mensaje'] = 'No se pudo eliminar la licencia del almacenamiento!!'
+                        print(e)
+                        return result
+                    try:
+                        AF.getDataBase().child("licencia").child(documento['Licencia']).remove(idToken)#estamos eliminando por eso mandamos el token
+                    except Exception as e:
+                        result['error'] = True
+                        result['mensaje'] = 'No se elimino el registro de licencia en la base de datos!!'
+                        print(e)
+                        return result
+                except Exception as e:
+                    result['error'] = True
+                    result['mensaje'] = 'No se encontro la licencia asociada al proyecto!!'
+                    print(e)
+                    return result
+            try:
+                archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+                try:
+                    AF.getStorage().delete("pdf/" + key + "/" + archivo['file'], idToken)
+                except Exception as e:
+                    result['error'] = True
+                    result['mensaje'] = 'No se pudo eliminar el archivo del almacenamiento!!'
+                    print(e)
+                    return result
+                try:
+                    AF.getDataBase().child("archivo").child(documento['Archivo']).remove(idToken)#estamos eliminando por eso mandamos el token
+                except Exception as e:
+                    result['error'] = True
+                    result['mensaje'] = 'No se elimino el registro de archivo en la base de datos!!'
+                    print(e)
+                    return result
+            except Exception as e:
+                result['error'] = True
+                result['mensaje'] = 'No se encontro el archivo asociado al proyecto!!'
+                print(e)
+                return result
+            #si todo fue bien, entonces seguimos desde aqui
+            try:
+                AF.getDataBase().child("proyecto").child(key).remove(idToken)#estamos eliminando por eso mandamos el token
+                result['error'] = False
+                result['mensaje'] = 'Se elimino el documento de forma exitosa!!'
+                return result
+            except Exception as e:
+                result['error'] = True
+                result['mensaje'] = 'No se elimino el proyecto!!'
+                print(e)
+                return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'No se encontro el proyecto asociado!!'
+            print(e)
+            return result

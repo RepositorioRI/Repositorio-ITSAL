@@ -16,6 +16,7 @@ urlpatterns = [
        path('vistaDocumentos/', views.vistaDocumentosTodos, name="vistaDocumentos"),
        path('eliminarQYS/<str:key>', views.eliminarQYS, name="eliminarQYS"),
        path('eliminarUsuario/<str:key>', views.eliminarUsuario, name="eliminarUsuario"),
+       path('eliminarDocumento/<str:key>', views.eliminarDocumento, name="eliminarDocumento"),
        path('cuentaInhabilitada/', views.cuentaInhabilitada, name="cuentaInhabilitada"),
        path('vistaDocumentoCarrera/<str:career>', views.vistaDocumentosCarrera, name="vistaDocumentoCarrera"),
        path('vistaDocumentosCategorias/<str:type>', views.vistaDocumentosCategorias, name="vistaDocumentosCategorias"),
