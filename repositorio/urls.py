@@ -20,7 +20,8 @@ urlpatterns = [
        path('cuentaInhabilitada/', views.cuentaInhabilitada, name="cuentaInhabilitada"),
        path('vistaDocumentoCarrera/<str:career>', views.vistaDocumentosCarrera, name="vistaDocumentoCarrera"),
        path('vistaDocumentosCategorias/<str:type>', views.vistaDocumentosCategorias, name="vistaDocumentosCategorias"),
-       path('paginaError/', views.paginaError, name="paginaError")
+       path('paginaError/', views.paginaError, name="paginaError"),
+       path('editarDocumento/', views.editarDocumento, name="editarDocumento"),
        
 ]
 

@@ -500,3 +500,6 @@ def eliminarDocumento(request, key):
 
 def paginaError(request):
     return render(request, 'public/paginaError.html')
+
+def editarDocumento(request):
+    return render(request, 'admin/editarDocumento.html')
