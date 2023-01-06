@@ -1,4 +1,5 @@
 
+from datetime import datetime
 import json
 from repositorio.logic.atributosFirebase import AF
 
@@ -127,11 +128,90 @@ class Documento:
             return result
 
     @staticmethod
-    def contarDocumentos(nameFile):
-        datosDeSesion = Documento.devolverTodosLosDatosSesion(nameFile)
-        users = AF.getDataBase().child('proyecto').get(datosDeSesion['idToken']).val()
-        cantidadDeUsuarios = len(users)
-        return cantidadDeUsuarios
+    def contarDocumentos():
+        documentos = AF.getDataBase().child('proyecto').get().val()
+        cantidadDeDocumentos = len(documentos)
+        return cantidadDeDocumentos
+
+    @staticmethod
+    def contarPorCarrera():
+        result = dict()
+        IQ = "Ing. Química"
+        IE = "Ing. Electrónica"
+        IM = "Ing. Mecánica"
+        IA = "Ing. Acuicultura"
+        IGE = "Ing. Gestión Empresarial"
+        ITICS = "Ing. TIC'S"
+        try:
+            documentosQuimica = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IQ).get().val()
+            result['countQuimica'] = len(documentosQuimica)
+            try:
+                documentosElectronica = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IE).get().val()
+                result['countElectronica'] = len(documentosElectronica)
+                try:
+                    documentosMecanica = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IM).get().val()
+                    result['countMecanica'] = len(documentosMecanica)
+                    try:
+                        documentosAcuicultura = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IA).get().val()
+                        result['countAcuicultura'] = len(documentosAcuicultura)
+                        try:
+                            documentosIGE = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IGE).get().val()
+                            result['countIGE'] = len(documentosIGE)
+                            try:
+                                documentosTICS = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(ITICS).get().val()
+                                result['countTICS'] = len(documentosTICS)
+                                result['error'] = False
+                                return result
+                            except Exception as e:
+                                result['error'] = True
+                                result['mensaje'] = 'No se obtuvieron la cantidad de documentos para la carrera de TICS'
+                                print(e)
+                                return result
+                        except Exception as e:
+                            result['error'] = True
+                            result['mensaje'] = 'No se obtuvieron la cantidad de documentos para la carrera de IGE'
+                            print(e)
+                            return result
+                    except Exception as e:
+                        result['error'] = True
+                        result['mensaje'] = 'No se obtuvieron la cantidad de documentos para la carrera de Acuicultura'
+                        print(e)
+                        return result
+                except Exception as e:
+                    result['error'] = True
+                    result['mensaje'] = 'No se obtuvieron la cantidad de documentos para la carrera de Mecanica'
+                    print(e)
+                    return result
+            except Exception as e:
+                result['error'] = True
+                result['mensaje'] = 'No se obtuvieron la cantidad de documentos para la carrera de Electronica'
+                print(e)
+                return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'No se obtuvieron la cantidad de documentos para la carrera de Quimica'
+            print(e)
+            return result
+    
+    @staticmethod
+    def getPorCarrera(career):
+        result = dict()
+        try:
+            tblCarrera = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(career).get()
+            listaDocumentos = list()
+            data = dict()
+            for documento in tblCarrera.each():
+                data = documento.val()
+                data['key'] = documento.key()
+                listaDocumentos.append(data)
+            result['tblCarrera'] = listaDocumentos
+            result['error'] = False
+            return result
+        except Exception as e:
+            result['error'] = True
+            result['mensaje'] = 'Error al obtener los proyectos de esa carrera!!'
+            print(e)
+            return result
 
     @staticmethod
     def devolverTodosLosDatosSesion(nameFile):#aqui abrimos el json con los datos de session y 

@@ -17,7 +17,7 @@ urlpatterns = [
        path('eliminarQYS/<str:key>', views.eliminarQYS, name="eliminarQYS"),
        path('eliminarUsuario/<str:key>', views.eliminarUsuario, name="eliminarUsuario"),
        path('cuentaInhabilitada/', views.cuentaInhabilitada, name="cuentaInhabilitada"),
-       path('vistaDocumentoCarrera/', views.vistaDocumentosCarrera, name="vistaDocumentoCarrera"),
+       path('vistaDocumentoCarrera/<str:career>', views.vistaDocumentosCarrera, name="vistaDocumentoCarrera"),
        
 ]
 

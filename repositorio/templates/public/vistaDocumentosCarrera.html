@@ -16,12 +16,12 @@
                     </h2>
                 </div>
                 <div class="list-group p-3">
-                    <a href="vistaDocumentoCarrera" class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Química <span class="badge text-bg-secondary float-end">0</span></a>
-                    <a href="#" class="list-group-item text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en Acuicultura <span class="badge text-bg-secondary float-end">0</span></a>
-                    <a href="#" class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Mecánica <span class="badge text-bg-secondary float-end">0</span></a>
-                    <a href="#" class="list-group-item text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Electrónica <span class="badge text-bg-secondary float-end">0</span></a>
-                    <a href="#"  class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en Gestión Empresarial <span class="badge text-bg-secondary float-end">0</span></a>
-                    <a href="#"  class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en TIC'S <span class="badge text-bg-secondary float-end">0</span></a>
+                  <a href="Ing. Química" class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Química <span class="badge text-bg-secondary float-end">{{ countQuimica }}</span></a>
+                  <a href="Ing. Acuicultura" class="list-group-item text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en Acuicultura <span class="badge text-bg-secondary float-end">{{ countAcuicultura }}</span></a>
+                  <a href="Ing. Mecánica" class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Mecánica <span class="badge text-bg-secondary float-end">{{ countMecanica }}</span></a>
+                  <a href="Ing. Electrónica" class="list-group-item text-dark hover-list-group-item-riitsal list-group-item-action">Ing. Electrónica <span class="badge text-bg-secondary float-end">{{ countElectronica }}</span></a>
+                  <a href="Ing. Gestión Empresarial"  class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en Gestión Empresarial <span class="badge text-bg-secondary float-end">{{ countIGE }}</span></a>
+                  <a href="Ing. TIC'S"  class="list-group-item  text-dark hover-list-group-item-riitsal list-group-item-action">Ing. en TIC'S <span class="badge text-bg-secondary float-end">{{ countTICS }}</span></a>
                   </div>
                </div>
             </aside>
@@ -32,11 +32,12 @@
                 <div class="card w-100 shadow-lg ">
                   <div class="card-header bg-secondary text-white">
                     <h2 class="fs-6">
-                      <b> Documentos ING Quimica</b>
+                      <b> Documentos {{ career }}</b>
                     </h2>
                   </div>
                   <div class="card-body p-3 table-responsive">
-                    <table class="table table-hover">
+                    {% if cantidadFilas > 0 %}
+                    <table class="table table-hover" id="miTabla">
                       <thead>
                         <tr>
                           <th scope="col">Fecha de publicacion</th>
@@ -45,19 +46,26 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
+                        {% for documento in tblCarrera %}
+                        <tr onclick="redirectToPage('../vistaDocumento/{{documento.key}}')">
+                          <td>{{ documento.date }}</td>
+                          <td>{{ documento.title }}</td>
+                          <td>{{ documento.creator }}</td>
                         </tr>
-                        <tr>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
+                        {% endfor %}
                       </tbody>
+                      <tfoot>
+                        <th>Fecha de publicacion</th>
+                        <th>Titulo</th>
+                        <th>Autor(es)</th>
+                      </tfoot>
                     </table>
-              
+                    {% endif %}
+                    {% if cantidadFilas == 0 %}
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                      <p class="alert alert-danger ">No hay documentos para esta carrera</p>
+                    </div>
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -68,4 +76,42 @@
     </div>
 </main>
 {% include 'components/footer.html '%}
+<script type="application/javascript">
+  $(document).ready(function () {
+    // Setup - add a text input to each footer cell
+    $('#miTabla tfoot th').each(function () {
+        var title = $(this).text();
+        if (title == 'Fecha de publicacion')
+          $(this).html('<input type="date" class="form-control" placeholder="Buscar por ' + title + '" />');
+        else
+          $(this).html('<input type="text" class="form-control" placeholder="Buscar por ' + title + '" />');
+    });
+ 
+    // DataTable
+    var table = $('#miTabla').DataTable({
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/es-MX.json'
+        },
+        initComplete: function () {
+            // Apply the search
+            this.api()
+                .columns()
+                .every(function () {
+                    var that = this;
+ 
+                    $('input', this.footer()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+        },
+    });
+});
+</script>
+<script>
+  function redirectToPage(url) {
+    window.location.assign(url);
+  }
+</script>
 {% endblock %}

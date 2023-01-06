@@ -25,11 +25,11 @@ class LoginForm(forms.Form):#formulario para el login
 
 class DocumentoForm(forms.Form):
     #los primeros valores son los que toma el formulario como el value
-    IQ = "Ing. Quimica"
-    IE = "Ing. Electronica"
-    IM = "Ing. Mecanica"
+    IQ = "Ing. Química"
+    IE = "Ing. Electrónica"
+    IM = "Ing. Mecánica"
     IA = "Ing. Acuicultura"
-    IGE = "Ing. Gestion Empresarial"
+    IGE = "Ing. Gestión Empresarial"
     ITICS = "Ing. TIC'S"
     CAREER_CHOICES = [
         #estos valores son los que se muestran y por ende estos no son los que se capturan

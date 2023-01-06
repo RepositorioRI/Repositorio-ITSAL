@@ -20,7 +20,21 @@ def inicio(request):
         messages.error(request, 'No puedes acceder a esta pagina publica')
         return redirect('inicioAdminSubadmin')
     else:
-        return render(request,'public/inicio.html')
+        cantitadTotalDocumentos = Documento.contarDocumentos()
+        result = Documento.contarPorCarrera()
+        if (result['error'] == False):
+            return render(request,'public/inicio.html',{
+                'countQuimica': result['countQuimica'],
+                'countElectronica': result['countElectronica'],
+                'countMecanica': result['countMecanica'],
+                'countAcuicultura': result['countAcuicultura'],
+                'countIGE': result['countIGE'],
+                'countTICS': result['countTICS'],
+                'cantitadTotalDocumentos': cantitadTotalDocumentos
+            })
+        else:
+            messages.error(request, result['mensaje'])
+            return render(request,'public/inicio.html')
     
 
 def login(request):
@@ -72,7 +86,7 @@ def inicioAdminSubadmin(request):
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)#obtenemos los datos de sesion del archivo json
         if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
             cantidadDeUsuarios = 0 #Iniciamos la variable para poder mandarla
-            cantidadDeDocumentos = Documento.contarDocumentos(nameFile)
+            cantidadDeDocumentos = Documento.contarDocumentos()
             cantidadDeQYS = Contacto.contarQYS(nameFile)
             if (datosDeSesion['role'] == 'Administrador'):# si es administrador 
                 cantidadDeUsuarios = Usuarios.contarUsuarios(nameFile)# entonces cuentame los usuarios
@@ -404,5 +418,32 @@ def cuentaInhabilitada(request):
         return redirect('inicio')#por lo que lo dirigimos a la pagina de index
 
 
-def vistaDocumentosCarrera(request):
-    return render(request,'public/vistaDocumentosCarrera.html')
+def vistaDocumentosCarrera(request, career):
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        messages.error(request, 'No puedes acceder a esta pagina publica')
+        return redirect('inicioAdminSubadmin')
+    else:
+        result = Documento.contarPorCarrera()
+        result2 = Documento.getPorCarrera(career)
+        cantidadFilas = len(result2['tblCarrera'])
+        if (result['error'] == False and result2['error'] == False):
+            return render(request,'public/vistaDocumentosCarrera.html',{
+                'countQuimica': result['countQuimica'],
+                'countElectronica': result['countElectronica'],
+                'countMecanica': result['countMecanica'],
+                'countAcuicultura': result['countAcuicultura'],
+                'countIGE': result['countIGE'],
+                'countTICS': result['countTICS'],
+                'tblCarrera': result2['tblCarrera'],
+                'cantidadFilas': cantidadFilas,
+                'career': career
+            })
+        else:
+            if (result['error'] == True and result['error']):
+                messages.error(request, result['mensaje'] + '\n' + result2['mensaje'])
+            elif (result['error'] == True):
+                messages.error(request, result['mensaje'])
+            else:
+                messages.error(request, result2['mensaje'])
+            return render(request,'public/vistaDocumentosCarrera.html')
