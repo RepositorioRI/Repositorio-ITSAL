@@ -454,3 +454,7 @@ class Documento:
             result['mensaje'] = 'No se encontro el proyecto asociado!!'
             print(e)
             return result
+
+    @staticmethod
+    def editarDocumento(data, files, idToken):
+        pass

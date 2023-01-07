@@ -21,7 +21,7 @@ urlpatterns = [
        path('vistaDocumentoCarrera/<str:career>', views.vistaDocumentosCarrera, name="vistaDocumentoCarrera"),
        path('vistaDocumentosCategorias/<str:type>', views.vistaDocumentosCategorias, name="vistaDocumentosCategorias"),
        path('paginaError/', views.paginaError, name="paginaError"),
-       path('editarDocumento/', views.editarDocumento, name="editarDocumento"),
+       path('editarDocumento/<str:key>', views.editarDocumento, name="editarDocumento"),
        
 ]
 

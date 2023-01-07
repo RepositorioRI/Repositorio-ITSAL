@@ -16,6 +16,12 @@
                       {% for field in form %}
                         {% if field.name == 'description' or field.name == 'File' or field.name == 'cc' or field.name == 'externalLicense' %}
                           <div class="col-md-12">
+                            {% if field.name == 'File' %}
+                                <p class="alert alert-warning fw-bold">{{archivo.file}}</p>
+                            {% endif %}
+                            {% if licencia != 0 and field.name == 'externalLicense' %}
+                                <p class="alert alert-warning fw-bold">{{licencia.file}}</p>
+                            {% endif %}
                             {{ field.errors }}
                             <strong>{{ field.label_tag }}</strong> {{ field }}
                           </div>
@@ -36,7 +42,7 @@
                        
                         
                         <div class="d-grid gap-2">
-                            <button class="btn btn-secondary mt-4 " type="submit">Agregar documento</button>
+                            <button class="btn btn-secondary mt-4 " type="submit">Editar documento</button>
                         </div>
                         {% csrf_token %}
                       </form>
@@ -46,4 +52,15 @@
       </div>
     </main>
     {% include 'components/footer.html '%}
+    <script>
+      $(document).ready(function () {
+        // Assign data to modal
+        //$('#staticBackdropLabel').text(nombre);
+        $('#id_name').val(name);
+        $('#id_surnames').val(surnames);
+        $('#id_state').val(state);
+        $('#id_key').val(key);
+        //console.log(key)
+    });
+    </script>
     {% endblock %}

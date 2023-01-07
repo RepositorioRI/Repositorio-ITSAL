@@ -36,7 +36,7 @@
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.type }}</a></td>
                         <td><a href="/vistaDocumento/{{documento.key}}" class="td-a">{{ documento.typeProject }}</a></td>
                         <td><a class="btn btn-danger btn-sm me-2" onclick="confirmarEliminacion('{{documento.key}}')" data-toggle="tooltip" title="Eliminar documento"><i class="fa-solid fa-trash"></i></a>
-                        <a href="/editarDocumento" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Editar documento"><i class="fa-solid fa-user-pen"></i></a> </td>
+                        <a href="/editarDocumento/{{documento.key}}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Editar documento"><i class="fa-solid fa-user-pen"></i></a> </td>
                       </tr>
                       {% endfor %}
                     </tbody>

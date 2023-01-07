@@ -169,7 +169,7 @@ def agregarDocumentos(request):
                         result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
                         if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
                             messages.success(request, result['mensaje'])#prepara un mensaje de exito
-                            return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
+                            return redirect('vistaDocumentos')#Que nos rediriga y nos muestre el mensaje
                             #return redirect('/login/usuarioRegistradoConExito')
                         else:# si hubo error en la respuesta
                             messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
@@ -501,5 +501,96 @@ def eliminarDocumento(request, key):
 def paginaError(request):
     return render(request, 'public/paginaError.html')
 
-def editarDocumento(request):
-    return render(request, 'admin/editarDocumento.html')
+def editarDocumento(request, key):
+    if (Documento.esKeyValida(key)):
+        nameFile = request.COOKIES.get('localId')
+        if (ChecarExpiracion.seLogueo(nameFile)):
+            ChecarExpiracion.checarSiExpiro(nameFile)
+            datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+            if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+                #aqui codigo
+                result = Documento.getDocumento(key)
+                if request.method == 'POST':#si recibe algo por post
+                    print(request.FILES)
+                    form = EditarDocumentoForm(request.POST, request.FILES)#creame el formulario pasando como argumento los datos del request tanto del post como del file
+                    print('hola4')
+                    if (form.is_valid()):#si es valido los datos del formulario
+                        print('hola33')
+                        data = request.POST.dict()#usar los datos como un diccionario
+                        files = request.FILES
+                        validarTipoProyecto = Documento.validarTipoProyecto(data, files)
+                        print('hola3')
+                        if (validarTipoProyecto['error'] == True):
+                            print('hola2')
+                            messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
+                        #print(data)
+                        else:
+                            print(files)
+                            print('hola')
+                            """
+                            result2 = Documento.editarDocumento(data, files, datosDeSesion['idToken'])
+                            if result2['error'] == False and result2['archivoAgregado'] == True:#si la respuesta fue exitosa
+                                messages.success(request, result2['mensaje'])#prepara un mensaje de exito
+                                return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
+                                #return redirect('/login/usuarioRegistradoConExito')
+                            else:# si hubo error en la respuesta
+                                messages.error(request, result2['mensaje'])#mandar en la misma pagina el mensaje de error
+                                """
+                    if (result['error'] == False):
+                        if 'licencia' in result:
+                            licencia = result['licencia']
+                        else:
+                            licencia = 0
+                        #print(result['documento']['title'])
+                        return render(request,'admin/editarDocumento.html', {
+                            'datosDeSesion': datosDeSesion,
+                            'archivo': result['archivo'],
+                            'licencia': licencia,
+                            'form': form
+                        })
+                    else:
+                        messages.error(request, result['mensaje'])
+                        return render(request,'admin/editarDocumento.html', {
+                            'datosDeSesion': datosDeSesion,
+                            'form': form
+                        })
+                else:#si no hay nada en post
+                    form = EditarDocumentoForm(initial={
+                        'title': result['documento']['title'],
+                        'career': result['documento']['career'],
+                        'creator': result['documento']['creator'],
+                        'contributor': result['documento']['contributor'],
+                        'type': result['documento']['type'],
+                        'date': result['documento']['date'],
+                        'description': result['documento']['description'],
+                        'publisher': result['documento']['publisher'],
+                        'language': result['documento']['language'],
+                        'typeProject': result['documento']['typeProject'],
+                        'cc': result['documento']['cc']
+                    })#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
+                    if (result['error'] == False):
+                        if 'licencia' in result:
+                            licencia = result['licencia']
+                        else:
+                            licencia = 0
+                        #print(result['documento']['title'])
+                        return render(request,'admin/editarDocumento.html', {
+                            'datosDeSesion': datosDeSesion,
+                            'archivo': result['archivo'],
+                            'licencia': licencia,
+                            'form': form
+                        })
+                    else:
+                        messages.error(request, result['mensaje'])
+                        return render(request,'admin/editarDocumento.html', {
+                            'datosDeSesion': datosDeSesion,
+                            'form': form
+                        })
+            else:
+                return redirect('cuentaInhabilitada')
+        else:
+            messages.error(request, 'No tiene permisos de acceder a esta ruta!!')
+            return redirect('inicio')  
+        #return render(request, 'admin/editarDocumento.html')
+    else:
+        return redirect('paginaError')
