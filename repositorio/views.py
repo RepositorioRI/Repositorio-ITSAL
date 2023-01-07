@@ -513,29 +513,21 @@ def editarDocumento(request, key):
                 if request.method == 'POST':#si recibe algo por post
                     print(request.FILES)
                     form = EditarDocumentoForm(request.POST, request.FILES)#creame el formulario pasando como argumento los datos del request tanto del post como del file
-                    print('hola4')
                     if (form.is_valid()):#si es valido los datos del formulario
-                        print('hola33')
                         data = request.POST.dict()#usar los datos como un diccionario
                         files = request.FILES
-                        validarTipoProyecto = Documento.validarTipoProyecto(data, files)
-                        print('hola3')
+                        validarTipoProyecto = Documento.validarTipoProyecto2(data, files, result['documento'])
                         if (validarTipoProyecto['error'] == True):
-                            print('hola2')
                             messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
                         #print(data)
                         else:
-                            print(files)
-                            print('hola')
-                            """
-                            result2 = Documento.editarDocumento(data, files, datosDeSesion['idToken'])
-                            if result2['error'] == False and result2['archivoAgregado'] == True:#si la respuesta fue exitosa
+                            result2 = Documento.editarDocumento(data, files, validarTipoProyecto['opcion'], datosDeSesion['idToken'], result['documento'], key)
+                            if result2['error'] == False:#si la respuesta fue exitosa
                                 messages.success(request, result2['mensaje'])#prepara un mensaje de exito
                                 return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
                                 #return redirect('/login/usuarioRegistradoConExito')
                             else:# si hubo error en la respuesta
                                 messages.error(request, result2['mensaje'])#mandar en la misma pagina el mensaje de error
-                                """
                     if (result['error'] == False):
                         if 'licencia' in result:
                             licencia = result['licencia']

@@ -239,7 +239,58 @@ class Documento:
             result['error'] = True
             result['mensaje'] = 'No puede registrar un proyecto externo sin su licencia externa'
             return result
-    
+
+    @staticmethod
+    def validarTipoProyecto2(data, files, documento):
+        result = dict()
+        if (not 'File' in files and not 'externalLicense' in files and data['typeProject'] == 'Proyecto externo' and documento['typeProject'] == 'Proyecto externo'): #esta condicion es para editar un proyecto externo sin que este mande la licencia nuevamente
+            result['error'] = False
+            result['opcion'] = 1#editanto un proyecto externo sin subir licencia externa y sin suibr archivo (solo los campos)
+            return result
+        elif ('File' in files and not 'externalLicense' in files and data['typeProject'] == 'Proyecto externo' and documento['typeProject'] == 'Proyecto externo'):
+            result['error'] = False
+            result['opcion'] = 2#editanto un proyecto externo sin subir licencia externa, pero subiendo el archivo (cambiar los campos y el archivo)
+            return result
+        elif ('File' in files and 'externalLicense' in files and data['typeProject'] == 'Proyecto externo' and documento['typeProject'] == 'Proyecto externo'):
+            result['error'] = False
+            result['opcion'] = 3#editanto un proyecto externo, subiendo licencia externa y cambiando el archivo (cambiar todo)
+            return result
+        elif (not 'externalLicense' in files and data['typeProject'] == 'Proyecto externo' and documento['typeProject'] == 'Proyecto interno'): #en caso que el admin intente editar un proyecto interno a externo y que este no mande la licencia externa
+            result['error'] = True
+            result['mensaje'] = 'Esta cambiando un proyecto interno a uno externo, para ello debe subir la licencia'
+            return result
+        elif (not 'File' in files and 'externalLicense' in files and data['typeProject'] == 'Proyecto externo' and documento['typeProject'] == 'Proyecto interno'): #en este caso, esta intentando cambiar un proyecto interno a externo mandando la licencia externa
+            result['error'] = False
+            result['opcion'] = 4#editando un proyecto interno a un proyecto externo, subiendo la licencia, pero sin subir o cambiar el archivo
+            return result
+        elif ('File' in files and 'externalLicense' in files and data['typeProject'] == 'Proyecto externo' and documento['typeProject'] == 'Proyecto interno'):
+            result['error'] = False
+            result['opcion'] = 5#editando un proyecto interno a un proyecto externo, subiendo la licencia  y subiendo o cambiando el archivo
+            return result
+        elif (not 'File' in files and data['typeProject'] == 'Proyecto interno' and documento['typeProject'] == 'Proyecto externo'):
+            result['error'] = False
+            result['opcion'] = 6#editando un proyecto externo a un proyecto interno, sin subir el archivo, aqui se debe eliminar la licencia externa
+            return result
+        elif('File' in files and data['typeProject'] == 'Proyecto interno' and documento['typeProject'] == 'Proyecto externo'):
+            result['error'] = False
+            result['opcion'] = 7#editando un proyecto externo a un proyecto interno, pero subiendo o cambiando el archivo del proyecto, aqui se debe eliminar la licencia externa
+            return result
+        elif(not 'File' in files and not 'externalLicense' in files and data['typeProject'] == 'Proyecto interno' and documento['typeProject'] == 'Proyecto interno'):
+            result['error'] = False
+            result['opcion'] = 8#editando un proyecto interno sin subir o cambiar el archivo, obviamente sin subir licencia externa (solo cambiar campos)
+            return result
+        elif('externalLicense' in files and data['typeProject'] == 'Proyecto interno' and documento['typeProject'] == 'Proyecto interno'):
+            result['error'] = True
+            result['mensaje'] = 'Esta tratando de editar un proyecto interno, recuerde que los proyectos internos no llevan licencia externa'
+            return result
+        elif('File' in files and not 'externalLicense' in files and data['typeProject'] == 'Proyecto interno' and documento['typeProject'] == 'Proyecto interno'):
+            result['error'] = False
+            result['opcion'] = 9#editando un proyecto interno subiendo o cambiando de archivo, obviamente sin subir la licencia externa (campos mas archivo)
+            return result
+        else:
+            result['error'] = True
+            result['mensaje'] = 'Por favor verifique lo que esta haciendo, usted puede cambiar un proyecto interno a ser un proyecto externo y viceversa. Pero recuerde que para ello existen ciertas cuestiones...\n'+'1.- Los proyectos internos no tienen licencias externas \n2.- Los proyectos externos deben tener su licencia externa \n3.-Cualquier tipo de proyecto debe tener siempre su archivo'
+            return result
     @staticmethod
     def getDocumentos(idToken):
         result = dict()
@@ -456,5 +507,487 @@ class Documento:
             return result
 
     @staticmethod
-    def editarDocumento(data, files, idToken):
-        pass
+    def editarDocumento(data, files, opcion, idToken, documento, key):
+        if (opcion == 1):
+            return Documento.opcion1Editar(data, files, idToken, documento, key)
+        elif (opcion == 2):
+            return Documento.opcion2Editar(data, files, idToken, documento, key)
+        elif (opcion == 3):
+            return Documento.opcion3Editar(data, files, idToken, documento, key)
+        elif (opcion == 4):
+            return Documento.opcion4Editar(data, files, idToken, documento, key)
+        elif (opcion == 5):
+            return Documento.opcion5Editar(data, files, idToken, documento, key)
+        elif (opcion == 6):
+            return Documento.opcion6Editar(data, files, idToken, documento, key)
+        elif (opcion == 7):
+            return Documento.opcion7Editar(data, files, idToken, documento, key)
+        elif (opcion == 8):
+            return Documento.opcion8Editar(data, files, idToken, documento, key)
+        elif (opcion == 9):
+            return Documento.opcion9Editar(data, files, idToken, documento, key)
+        else:
+            result = dict()
+            result['error'] = True
+            result['mensaje'] = 'Opcion desconocida!!'
+            return result
+
+    @staticmethod
+    def opcion1Editar(data, files, idToken, documento, key):
+        #editanto un proyecto externo sin subir licencia externa y sin suibr archivo (solo los campos)
+        result = dict()
+        try:
+            response = AF.getDataBase().child("proyecto").child(key).update(data, idToken)
+            result['error'] = False
+            result['mensaje'] = 'Se editó con éxito el documento!!'
+            return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se pudo editar el documento!!'
+            return result
+    
+    @staticmethod
+    def opcion2Editar(data, files, idToken, documento, key):
+        #editanto un proyecto externo sin subir licencia externa, pero subiendo el archivo (cambiar los campos y el archivo)
+        result = dict()
+        try:
+            #primero subimos el archivo nuevo para ello consultamos el archivo en la base de datos para traer el nombre del archivo
+            archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+            try:
+                #ahora eliminamos el archivo del storage
+                AF.getStorage().delete("pdf/" + key + "/" + archivo['file'], idToken)
+                try:
+                    #ahora subimos el archivo nuevo
+                    AF.getStorage().child("pdf/" + key + "/" + files['File'].name).put(files['File'], idToken)
+                    try:
+                        #ahora editamos el registro de la coleccion de archivo del database
+                        dataArchivo = dict()
+                        dataArchivo['file'] = files["File"].name
+                        dataArchivo['sizeFile'] = files["File"].size
+                        dataArchivo['format'] = files["File"].content_type
+                        AF.getDataBase().child('archivo').child(documento['Archivo']).update(dataArchivo, idToken)
+                        try:
+                            #ahora editamos el proyecto
+                            AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+                            #si todo bien
+                            result['error'] = False
+                            result['mensaje'] = 'Se editó el documento con exitó!'
+                            return result
+                        except Exception as e:
+                            print(e)
+                            result['error'] = True
+                            result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+                            return result
+                    except Exception as e:
+                        print(e)
+                        result['error'] = True
+                        result['mensaje'] = 'No se pudo actualizar el registro de archivo de la base de datos!!'
+                        return result
+                except Exception as e:
+                    print(e)
+                    result['error'] = True
+                    result['mensaje'] = 'No se pudo subir el archivo nuevo asociado al proyecto en el almacenamiento'
+                    return result
+            except Exception as e:
+                print(e)
+                result['error'] = True
+                result['mensaje'] = 'No se pudo eliminar el archivo asociado al proyecto'
+                return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se encontro el archivo asociado al proyecto'
+            return result
+
+    @staticmethod
+    def opcion3Editar(data, files, idToken, documento, key):
+        #editanto un proyecto externo, subiendo licencia externa y cambiando el archivo (cambiar todo)
+        result = dict()
+        try:
+            #consultamos el registro de licencia para obtener el nombre de la licencia
+            licencia = AF.getDataBase().child('licencia').child(documento['Licencia']).get().val()
+            try:
+                #ahora eliminamos la licencia del storage
+                AF.getStorage().delete("pdf/" + key + "/" + licencia['file'], idToken)
+                try:
+                    #ahora subimos la nueva licencia
+                    AF.getStorage().child("pdf/" + key + "/" + files['externalLicense'].name).put(files['externalLicense'], idToken)
+                    try:
+                        #ahora editamos el registro de la coleccion de licencia del database
+                        dataLicencia = dict()
+                        dataLicencia['file'] = files["externalLicense"].name
+                        dataLicencia['sizeFile'] = files["externalLicense"].size
+                        dataLicencia['format'] = files["externalLicense"].content_type
+                        AF.getDataBase().child('licencia').child(documento['Licencia']).update(dataLicencia, idToken)
+                        try:
+                            #ahora repetimos el mismo proceso ahora con archivo
+                            archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+                            try:
+                                #ahora eliminamos el archivo del storage
+                                AF.getStorage().delete("pdf/" + key + "/" + archivo['file'], idToken)
+                                try:
+                                    #ahora subimos el archivo nuevo
+                                    AF.getStorage().child("pdf/" + key + "/" + files['File'].name).put(files['File'], idToken)
+                                    try:
+                                        #ahora editamos el registro de la coleccion de archivo del database
+                                        dataArchivo = dict()
+                                        dataArchivo['file'] = files["File"].name
+                                        dataArchivo['sizeFile'] = files["File"].size
+                                        dataArchivo['format'] = files["File"].content_type
+                                        AF.getDataBase().child('archivo').child(documento['Archivo']).update(dataArchivo, idToken)
+                                        try:
+                                            #ahora editamos el proyecto
+                                            AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+                                            #si todo bien
+                                            result['error'] = False
+                                            result['mensaje'] = 'Se editó el documento con exitó!'
+                                            return result
+                                        except Exception as e:
+                                            print(e)
+                                            result['error'] = True
+                                            result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+                                            return result
+                                    except Exception as e:
+                                        print(e)
+                                        result['error'] = True
+                                        result['mensaje'] = 'No se pudo actualizar el registro de archivo de la base de datos!!'
+                                        return result
+                                except Exception as e:
+                                    print(e)
+                                    result['error'] = True
+                                    result['mensaje'] = 'No se pudo subir el archivo nuevo asociado al proyecto en el almacenamiento'
+                                    return result
+                            except Exception as e:
+                                print(e)
+                                result['error'] = True
+                                result['mensaje'] = 'No se pudo eliminar el archivo asociado al proyecto'
+                                return result
+                        except Exception as e:
+                            print(e)
+                            result['error'] = True
+                            result['mensaje'] = 'No se encontro el archivo asociado al proyecto'
+                            return result
+                    except Exception as e:
+                        print(e)
+                        result['error'] = True
+                        result['mensaje'] = 'No se pudo actualizar el registro de licencia de la base de datos!!'
+                        return result
+                except Exception as e:
+                    print(e)
+                    result['error'] = True
+                    result['mensaje'] = 'No se pudo subir la nueva licencia asociado al proyecto en el almacenamiento'
+                    return result
+            except Exception as e:
+                print(e)
+                result['error'] = True
+                result['mensaje'] = 'No se pudo eliminar la licencia asociado al proyecto'
+                return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se encontro la licencia asociado al proyecto'
+            return result
+
+    @staticmethod
+    def opcion4Editar(data, files, idToken, documento, key):
+        #editando un proyecto interno a un proyecto externo, subiendo la licencia, pero sin subir o cambiar el archivo
+        result = dict()
+        try:
+            #primero subimos la licencia al storage
+            AF.getStorage().child("pdf/" + key + "/" + files['externalLicense'].name).put(files['externalLicense'], idToken)
+            try:
+                #ahora creamos el registro de la coleccion de licencia del database asociado a este proyecto
+                dataLicencia = dict()
+                dataLicencia['file'] = files["externalLicense"].name
+                dataLicencia['sizeFile'] = files["externalLicense"].size
+                dataLicencia['format'] = files["externalLicense"].content_type
+                licencia = AF.getDataBase().child('licencia').push(dataLicencia, idToken)
+                try:
+                    #Ahora editamos el proyecto
+                    data['Licencia'] = licencia['name']#le mandamos la key de la licencia que creamos para asociarlo al proyecto
+                    AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+                    #si todo bien
+                    result['error'] = False
+                    result['mensaje'] = 'Se editó el documento con exitó!'
+                    return result
+                except Exception as e:
+                    print(e)
+                    result['error'] = True
+                    result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+                    return result
+            except Exception as e:
+                print(e)
+                result['error'] = True
+                result['mensaje'] = 'No se pudo crear el registro de licencia de la base de datos!!'
+                return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se pudo subir la licencia asociado al proyecto'
+            return result
+
+    @staticmethod
+    def opcion5Editar(data, files, idToken, documento, key):
+        #editando un proyecto interno a un proyecto externo, subiendo la licencia  y subiendo o cambiando el archivo
+        result = dict()
+        try:
+            #primero subimos la licencia al storage
+            AF.getStorage().child("pdf/" + key + "/" + files['externalLicense'].name).put(files['externalLicense'], idToken)
+            try:
+                #ahora creamos el registro de la coleccion de licencia del database asociado a este proyecto
+                dataLicencia = dict()
+                dataLicencia['file'] = files["externalLicense"].name
+                dataLicencia['sizeFile'] = files["externalLicense"].size
+                dataLicencia['format'] = files["externalLicense"].content_type
+                licencia = AF.getDataBase().child('licencia').push(dataLicencia, idToken)
+                try:
+                    #ahora consultamos el archivo del database para obtener el nombre
+                    archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+                    try:
+                        #ahora eliminamos el archivo del storage
+                        AF.getStorage().delete("pdf/" + key + "/" + archivo['file'], idToken)
+                        try:
+                            #ahora subimos el archivo nuevo
+                            AF.getStorage().child("pdf/" + key + "/" + files['File'].name).put(files['File'], idToken)
+                            try:
+                                #ahora editamos el registro de la coleccion de archivo del database
+                                dataArchivo = dict()
+                                dataArchivo['file'] = files["File"].name
+                                dataArchivo['sizeFile'] = files["File"].size
+                                dataArchivo['format'] = files["File"].content_type
+                                AF.getDataBase().child('archivo').child(documento['Archivo']).update(dataArchivo, idToken)
+                                try:
+                                    #ahora editamos el proyecto
+                                    data['Licencia'] = licencia['name']
+                                    AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+                                    #si todo bien
+                                    result['error'] = False
+                                    result['mensaje'] = 'Se editó el documento con exitó!'
+                                    return result
+                                except Exception as e:
+                                    print(e)
+                                    result['error'] = True
+                                    result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+                                    return result
+                            except Exception as e:
+                                print(e)
+                                result['error'] = True
+                                result['mensaje'] = 'No se pudo actualizar el registro de archivo de la base de datos!!'
+                                return result
+                        except Exception as e:
+                            print(e)
+                            result['error'] = True
+                            result['mensaje'] = 'No se pudo subir el archivo nuevo asociado al proyecto en el almacenamiento'
+                            return result
+                    except Exception as e:
+                        print(e)
+                        result['error'] = True
+                        result['mensaje'] = 'No se pudo eliminar el archivo asociado al proyecto'
+                        return result
+                except Exception as e:
+                    print(e)
+                    result['error'] = True
+                    result['mensaje'] = 'No se encontro el archivo asociado al proyecto'
+                    return result
+            except Exception as e:
+                print(e)
+                result['error'] = True
+                result['mensaje'] = 'No se pudo crear el registro de licencia de la base de datos!!'
+                return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se pudo subir la licencia asociado al proyecto'
+            return result
+
+    @staticmethod
+    def opcion6Editar(data, files, idToken, documento, key):
+        #editando un proyecto externo a un proyecto interno, sin subir el archivo, aqui se debe eliminar la licencia externa
+        result = dict()
+        try:
+            #primero consultamos la licencia del database para obtener el nombre
+            licencia = AF.getDataBase().child('licencia').child(documento['Licencia']).get().val()
+            try:
+                #ahora eliminamos la licencia del storage
+                AF.getStorage().delete("pdf/" + key + "/" + licencia['file'], idToken)
+                try:
+                    #ahora eliminamos el registro de licencia de la base de datos
+                    AF.getDataBase().child('licencia').child(documento['Licencia']).remove(idToken)
+                    try:
+                        #ahora editamos el proyecto
+                        data['Licencia'] = None #para que elimine el campo Licencia
+                        AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+                        #si todo bien
+                        result['error'] = False
+                        result['mensaje'] = 'Se editó el documento con exitó!'
+                        return result
+                    except Exception as e:
+                        print(e)
+                        result['error'] = True
+                        result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+                        return result
+                except Exception as e:
+                    print(e)
+                    result['error'] = True
+                    result['mensaje'] = 'No se pudo eliminar el registro de licencia de la base de datos!!'
+                    return result
+            except Exception as e:
+                print(e)
+                result['error'] = True
+                result['mensaje'] = 'No se pudo eliminar la licencia asociado al proyecto'
+                return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se encontro la licencia asociado al proyecto'
+            return result
+            
+
+    @staticmethod
+    def opcion7Editar(data, files, idToken, documento, key):
+        #editando un proyecto externo a un proyecto interno, pero subiendo o cambiando el archivo del proyecto, aqui se debe eliminar la licencia externa
+        result = dict()
+        try:
+            #primero consultamos la licencia del database para obtener el nombre
+            licencia = AF.getDataBase().child('licencia').child(documento['Licencia']).get().val()
+            try:
+                #ahora eliminamos la licencia del storage
+                AF.getStorage().delete("pdf/" + key + "/" + licencia['file'], idToken)
+                try:
+                    #ahora eliminamos el registro de licencia de la base de datos
+                    AF.getDataBase().child('licencia').child(documento['Licencia']).remove(idToken)
+                    try:
+                        #ahora queda cambiar el archivo para ello primero consultamos el archivo que tenemos para eliminarlo
+                        archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+                        try:
+                            #ahora eliminamos el archivo del storage
+                            AF.getStorage().delete("pdf/" + key + "/" + archivo['file'], idToken)
+                            try:
+                                #ahora subimos el archivo nuevo
+                                AF.getStorage().child("pdf/" + key + "/" + files['File'].name).put(files['File'], idToken)
+                                try:
+                                    #ahora editamos el registro de la coleccion de archivo del database
+                                    dataArchivo = dict()
+                                    dataArchivo['file'] = files["File"].name
+                                    dataArchivo['sizeFile'] = files["File"].size
+                                    dataArchivo['format'] = files["File"].content_type
+                                    AF.getDataBase().child('archivo').child(documento['Archivo']).update(dataArchivo, idToken)
+                                    try:
+                                        #ahora editamos el proyecto
+                                        data['Licencia'] = None
+                                        AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+                                        #si todo bien
+                                        result['error'] = False
+                                        result['mensaje'] = 'Se editó el documento con exitó!'
+                                        return result
+                                    except Exception as e:
+                                        print(e)
+                                        result['error'] = True
+                                        result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+                                        return result
+                                except Exception as e:
+                                    print(e)
+                                    result['error'] = True
+                                    result['mensaje'] = 'No se pudo actualizar el registro de archivo de la base de datos!!'
+                                    return result
+                            except Exception as e:
+                                print(e)
+                                result['error'] = True
+                                result['mensaje'] = 'No se pudo subir el archivo nuevo asociado al proyecto en el almacenamiento'
+                                return result
+                        except Exception as e:
+                            print(e)
+                            result['error'] = True
+                            result['mensaje'] = 'No se pudo eliminar el archivo asociado al proyecto'
+                            return result
+                    except Exception as e:
+                        print(e)
+                        result['error'] = True
+                        result['mensaje'] = 'No se encontro el archivo asociado al proyecto'
+                        return result
+                except Exception as e:
+                    print(e)
+                    result['error'] = True
+                    result['mensaje'] = 'No se pudo eliminar el registro de licencia de la base de datos!!'
+                    return result
+            except Exception as e:
+                print(e)
+                result['error'] = True
+                result['mensaje'] = 'No se pudo eliminar la licencia asociado al proyecto'
+                return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se encontro la licencia asociado al proyecto'
+            return result
+
+    @staticmethod
+    def opcion8Editar(data, files, idToken, documento, key):
+        #editando un proyecto interno sin subir o cambiar el archivo, obviamente sin subir licencia externa (solo cambiar campos)
+        result = dict()
+        try:
+            #solamente editamos el proyecto
+            AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+            #si todo bien
+            result['error'] = False
+            result['mensaje'] = 'Se editó el documento con exitó!'
+            return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+            return result
+
+    @staticmethod
+    def opcion9Editar(data, files, idToken, documento, key):
+        #editando un proyecto interno subiendo o cambiando de archivo, obviamente sin subir la licencia externa (campos mas archivo)
+        result = dict()
+        try:
+            #consultamos el archivo de la base de datos para conseguir el nombre y asi eliminarlo de storage
+            archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+            try:
+                #ahora eliminamos el archivo del storage
+                AF.getStorage().delete("pdf/" + key + "/" + archivo['file'], idToken)
+                try:
+                    #ahora subimos el archivo nuevo
+                    AF.getStorage().child("pdf/" + key + "/" + files['File'].name).put(files['File'], idToken)
+                    try:
+                        #ahora editamos el registro de la coleccion de archivo del database
+                        dataArchivo = dict()
+                        dataArchivo['file'] = files["File"].name
+                        dataArchivo['sizeFile'] = files["File"].size
+                        dataArchivo['format'] = files["File"].content_type
+                        AF.getDataBase().child('archivo').child(documento['Archivo']).update(dataArchivo, idToken)
+                        try:
+                            #ahora editamos el proyecto
+                            AF.getDataBase().child('proyecto').child(key).update(data, idToken)
+                            #si todo bien
+                            result['error'] = False
+                            result['mensaje'] = 'Se editó el documento con exitó!'
+                            return result
+                        except Exception as e:
+                            print(e)
+                            result['error'] = True
+                            result['mensaje'] = 'No se pudo actualizar el registro de proyecto de la base de datos!!'
+                            return result
+                    except Exception as e:
+                        print(e)
+                        result['error'] = True
+                        result['mensaje'] = 'No se pudo actualizar el registro de archivo de la base de datos!!'
+                        return result
+                except Exception as e:
+                    print(e)
+                    result['error'] = True
+                    result['mensaje'] = 'No se pudo subir el archivo nuevo asociado al proyecto en el almacenamiento'
+                    return result
+            except Exception as e:
+                print(e)
+                result['error'] = True
+                result['mensaje'] = 'No se pudo eliminar el archivo asociado al proyecto'
+                return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'No se encontro el archivo asociado al proyecto'
+            return result
