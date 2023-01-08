@@ -84,6 +84,28 @@
           <a class="nav-link text-white hover-navbar-riitsal" href="/contacto">Contacto</a>
         </li>
         {% endif %}
+        {% if datosDeSesion != None %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white hover-navbar-riitsal" href="#"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Gestión
+          </a>
+          <ul class="dropdown-menu dropdown-ul-riitsal ">
+            <li><a class="dropdown-item hover-navbar-riitsal text-white" href="/vistaDocumentos">Documentos</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider dropdown-hr-riitsal">
+            </li>
+            <li><a class="dropdown-item hover-navbar-riitsal text-white" href="/vistaQuejasSugerencias">Quejas y Sugerencias</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider dropdown-hr-riitsal">
+            </li>
+            <li><a class="dropdown-item hover-navbar-riitsal text-white" href="/vistaSubadministradores">Subadministradores</a>
+            </li>
+          </ul>
+        </li>
+        {% endif %}
       </ul>
       
       {% if datosDeSesion.name %}
