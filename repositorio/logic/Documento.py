@@ -2,7 +2,7 @@
 from datetime import datetime
 import json
 from repositorio.logic.atributosFirebase import AF
-import asyncio
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 class Documento:
@@ -991,3 +991,54 @@ class Documento:
             result['error'] = True
             result['mensaje'] = 'No se encontro el archivo asociado al proyecto'
             return result
+    
+    @staticmethod
+    def sonIguales(files):
+        if ('File' in files and 'externalLicense' in files):
+            if isinstance(files['File'], InMemoryUploadedFile) and isinstance(files['externalLicense'], InMemoryUploadedFile):
+                if files['File'].size != files['externalLicense'].size:
+                    return False
+
+                file1_content = files['File'].read()
+                file2_content = files['externalLicense'].read()
+
+                return file1_content == file2_content
+            return False
+        return False
+
+    @staticmethod
+    def sonIguales2(files, documento):
+        if ('File' in files and 'externalLicense' in files):#aqui entra si trato de editar dos archivos por ende esos los recibimos en el request
+            if isinstance(files['File'], InMemoryUploadedFile) and isinstance(files['externalLicense'], InMemoryUploadedFile):
+                if files['File'].size != files['externalLicense'].size:
+                    return False
+
+                file1_content = files['File'].read()
+                file2_content = files['externalLicense'].read()
+
+                return file1_content == file2_content
+            return False
+        elif ('externalLicense' in files):
+            #consultamos los datos del archivo para comparar con el que estamos recibiendo en licencia externa
+            try:
+                archivo = AF.getDataBase().child('archivo').child(documento['Archivo']).get().val()
+                if (archivo['file'] == files["externalLicense"].name and archivo['sizeFile'] == files["externalLicense"].size):
+                    return True
+                else:
+                    return False
+            except Exception as e:
+                print(e)
+        elif ('File' in files):
+            #en caso que el usuario este editando un proyecto externo, primero debemos asegurarnos que este proyecto si es externo para ello validamos que si el documento tiene licencia
+            if ('Licencia' in documento):
+                try:
+                    licencia = AF.getDataBase().child('licencia').child(documento['Licencia']).get().val()
+                    if (licencia['file'] == files["File"].name and licencia['sizeFile'] == files["File"].size):
+                        return True
+                    else:
+                        return False
+                except Exception as e:
+                    print(e)
+        else:
+            #si llega hasta aqui significa que no quiere editar los archivos, solo los campos, por ello retornamos un false
+            return False

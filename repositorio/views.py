@@ -160,19 +160,22 @@ def agregarDocumentos(request):
                 if (form.is_valid()):#si es valido los datos del formulario
                     data = request.POST.dict()#usar los datos como un diccionario
                     files = request.FILES
-                    validarTipoProyecto = Documento.validarTipoProyecto(data, files)
-                    if (validarTipoProyecto['error'] == True):
-                        messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
-                    #print(data)
+                    if not Documento.sonIguales(files):
+                        validarTipoProyecto = Documento.validarTipoProyecto(data, files)
+                        if (validarTipoProyecto['error'] == True):
+                            messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
+                        #print(data)
+                        else:
+                            #print('todo bien en el view')
+                            result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
+                            if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
+                                messages.success(request, result['mensaje'])#prepara un mensaje de exito
+                                return redirect('vistaDocumentos')#Que nos rediriga y nos muestre el mensaje
+                                #return redirect('/login/usuarioRegistradoConExito')
+                            else:# si hubo error en la respuesta
+                                messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
                     else:
-                        #print('todo bien en el view')
-                        result = Documento.agregarDocumento(data, files, datosDeSesion['idToken'])
-                        if result['error'] == False and result['archivoAgregado'] == True:#si la respuesta fue exitosa
-                            messages.success(request, result['mensaje'])#prepara un mensaje de exito
-                            return redirect('vistaDocumentos')#Que nos rediriga y nos muestre el mensaje
-                            #return redirect('/login/usuarioRegistradoConExito')
-                        else:# si hubo error en la respuesta
-                            messages.error(request, result['mensaje'])#mandar en la misma pagina el mensaje de error
+                        messages.error(request, 'El archivo del proyecto y el archivo de licencia no deben ser iguales!!')#mandar en la misma pagina el mensaje de error
             else:#si no hay nada en post
                 form = DocumentoForm()#aun asi, iniciame el formulario por si el usuario entra para rellenarlo
             return render(request,'admin/agregarDocumentos.html', {
@@ -516,18 +519,21 @@ def editarDocumento(request, key):
                     if (form.is_valid()):#si es valido los datos del formulario
                         data = request.POST.dict()#usar los datos como un diccionario
                         files = request.FILES
-                        validarTipoProyecto = Documento.validarTipoProyecto2(data, files, result['documento'])
-                        if (validarTipoProyecto['error'] == True):
-                            messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
-                        #print(data)
+                        if not Documento.sonIguales2(files, result['documento']):
+                            validarTipoProyecto = Documento.validarTipoProyecto2(data, files, result['documento'])
+                            if (validarTipoProyecto['error'] == True):
+                                messages.error(request, validarTipoProyecto['mensaje'])#mandar en la misma pagina el mensaje de error
+                            #print(data)
+                            else:
+                                result2 = Documento.editarDocumento(data, files, validarTipoProyecto['opcion'], datosDeSesion['idToken'], result['documento'], key)
+                                if result2['error'] == False:#si la respuesta fue exitosa
+                                    messages.success(request, result2['mensaje'])#prepara un mensaje de exito
+                                    return redirect('vistaDocumentos')#Que nos rediriga y nos muestre el mensaje
+                                    #return redirect('/login/usuarioRegistradoConExito')
+                                else:# si hubo error en la respuesta
+                                    messages.error(request, result2['mensaje'])#mandar en la misma pagina el mensaje de error
                         else:
-                            result2 = Documento.editarDocumento(data, files, validarTipoProyecto['opcion'], datosDeSesion['idToken'], result['documento'], key)
-                            if result2['error'] == False:#si la respuesta fue exitosa
-                                messages.success(request, result2['mensaje'])#prepara un mensaje de exito
-                                return redirect('inicioAdminSubadmin')#Que nos rediriga y nos muestre el mensaje
-                                #return redirect('/login/usuarioRegistradoConExito')
-                            else:# si hubo error en la respuesta
-                                messages.error(request, result2['mensaje'])#mandar en la misma pagina el mensaje de error
+                            messages.error(request, 'El archivo del proyecto y el archivo de licencia no deben ser iguales!!')
                     if (result['error'] == False):
                         if 'licencia' in result:
                             licencia = result['licencia']
