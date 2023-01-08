@@ -185,7 +185,19 @@ class Usuarios:
         except Exception as e:
             return False
 
-
+    @staticmethod
+    def restablecerPassword(email):
+        result = dict()
+        try:
+            AF.getAuth().send_password_reset_email(email)
+            result['error'] = False
+            result['mensaje'] = 'Se envio el correo de restablecimiento de contraseña de forma exitosa. Entre a su cuenta de correo y siga los pasos, en caso de que no encuentre el correo cheque en la lista de spam!!'
+            return result
+        except Exception as e:
+            print(e)
+            result['error'] = True
+            result['mensaje'] = 'Email inexistente!!'
+            return result
     
 
     

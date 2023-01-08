@@ -22,6 +22,7 @@ urlpatterns = [
        path('vistaDocumentosCategorias/<str:type>', views.vistaDocumentosCategorias, name="vistaDocumentosCategorias"),
        path('paginaError/', views.paginaError, name="paginaError"),
        path('editarDocumento/<str:key>', views.editarDocumento, name="editarDocumento"),
+       path('restablecerPassword/<str:email>', views.restablecerPassword, name="restablecerPassword")
        
 ]
 

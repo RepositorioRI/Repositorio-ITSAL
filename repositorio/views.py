@@ -592,3 +592,12 @@ def editarDocumento(request, key):
         #return render(request, 'admin/editarDocumento.html')
     else:
         return redirect('paginaError')
+    
+def restablecerPassword(request, email):
+    #print(email)
+    result = Usuarios.restablecerPassword(email)
+    if (result['error'] == False):
+        messages.success(request, result['mensaje'])
+    else:
+        messages.error(request, result['mensaje'])
+    return redirect('login')

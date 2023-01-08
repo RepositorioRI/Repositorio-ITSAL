@@ -25,6 +25,7 @@
                     {{form}}
                     <div class="d-grid gap-2 ">
                       <button class="btn btn-secondary mt-4 " type="submit">Iniciar Sesión</button>
+                      <a class="text-center mt-2 " type="button" onclick="mensajeInput()">¿Se le olvido su contraseña?</a>
                     </div>
                     <!-- //TODO: para todos los formularios, mandamos el csrf_token para que django no lo detecte como amenaza-->
                     {% csrf_token %}
@@ -42,4 +43,27 @@
     <p class="fs-6 text-center text-white mt-2">© Copyright 2022 TecNM - Todos los Derechos Reservados</p>
   </footer>
   <!-- TODO: Termina la barra copyright *footer base*-->
+  <script>
+    async function mensajeInput(){
+      const { value: email } = await Swal.fire({
+      title: 'Favor de ingresar su email',
+      text: 'Se le enviara un correo en el cual le daran instrucciones de como restablecer su contraseña',
+      input: 'email',
+      inputPlaceholder: 'Escriba aquí su email',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Mandar correo',
+      inputValidator: (value) => {
+        if (!/^[^@]+@[^@]+\.[^@]+$/.test(value)) {
+          return 'Por favor ingrese una dirección de correo electrónico válida'
+        }
+      }
+    })
+
+    if (email) {
+      //Aqui entra si es gmail valido
+      window.location.href = "/restablecerPassword/" + email
+    }
+    }
+  </script>
 </body>
