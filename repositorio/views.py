@@ -303,31 +303,35 @@ def vistaSubadministradores(request):
         ChecarExpiracion.checarSiExpiro(nameFile)
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
         if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
-            result = Usuarios.obtenerUsuarios(datosDeSesion['idToken'])
-            form = UsuarioEditarForm()
-            if (result['error'] == False):
-                listaUsuarios = result['listaUsuarios']
-                if (request.method == 'POST'):
-                    form = UsuarioEditarForm(request.POST)
-                    if (form.is_valid()):
-                        data = request.POST.dict()#usar los datos como un diccionario
-                        result2 = Usuarios.editarUsuario(data, datosDeSesion['idToken'])
-                        if result2['error'] == False:
-                            messages.success(request, result2['mensaje'])
-                            result = Usuarios.obtenerUsuarios(datosDeSesion['idToken'])
-                            listaUsuarios = result['listaUsuarios']
-                        else:
-                            messages.error(request, result2['mensaje'])
-                        #print(data)
-                #UsuarioEditarForm
+            if (datosDeSesion['role'] == 'Subadministrador'):
+                messages.error(request, 'No tiene permisos para acceder a esta ruta')
+                return redirect('inicioAdminSubadmin')
             else:
-                listaUsuarios = list()
-                messages.error(request, result['mensaje'])
-            return render(request,'admin/vistaSubadministradores.html', {
-                'datosDeSesion': datosDeSesion,
-                'listaUsuarios': listaUsuarios,
-                'form': form
-            })
+                result = Usuarios.obtenerUsuarios(datosDeSesion['idToken'])
+                form = UsuarioEditarForm()
+                if (result['error'] == False):
+                    listaUsuarios = result['listaUsuarios']
+                    if (request.method == 'POST'):
+                        form = UsuarioEditarForm(request.POST)
+                        if (form.is_valid()):
+                            data = request.POST.dict()#usar los datos como un diccionario
+                            result2 = Usuarios.editarUsuario(data, datosDeSesion['idToken'])
+                            if result2['error'] == False:
+                                messages.success(request, result2['mensaje'])
+                                result = Usuarios.obtenerUsuarios(datosDeSesion['idToken'])
+                                listaUsuarios = result['listaUsuarios']
+                            else:
+                                messages.error(request, result2['mensaje'])
+                            #print(data)
+                    #UsuarioEditarForm
+                else:
+                    listaUsuarios = list()
+                    messages.error(request, result['mensaje'])
+                return render(request,'admin/vistaSubadministradores.html', {
+                    'datosDeSesion': datosDeSesion,
+                    'listaUsuarios': listaUsuarios,
+                    'form': form
+                })
         else:
             return redirect('cuentaInhabilitada')
     else:

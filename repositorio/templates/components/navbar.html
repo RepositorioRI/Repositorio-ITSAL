@@ -98,11 +98,13 @@
             </li>
             <li><a class="dropdown-item hover-navbar-riitsal text-white" href="/vistaQuejasSugerencias">Quejas y Sugerencias</a>
             </li>
+            {% if datosDeSesion.role == 'Administrador' %}
             <li>
               <hr class="dropdown-divider dropdown-hr-riitsal">
             </li>
             <li><a class="dropdown-item hover-navbar-riitsal text-white" href="/vistaSubadministradores">Subadministradores</a>
             </li>
+            {% endif %}
           </ul>
         </li>
         {% endif %}
