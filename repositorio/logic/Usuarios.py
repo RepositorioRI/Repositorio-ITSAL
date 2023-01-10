@@ -165,8 +165,11 @@ class Usuarios:
     def contarUsuarios(nameFile):#este metodo retorna la cantidad de usuarios en la base de datos
         datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
         users = AF.getDataBase().child('usuario').get(datosDeSesion['idToken']).val()
-        cantidadDeUsuarios = len(users)
-        return cantidadDeUsuarios
+        if users == None:
+            return 0
+        else:
+            cantidadDeUsuarios = len(users)
+            return cantidadDeUsuarios
     
     @staticmethod
     def eliminarArchivoSesion(nameFile):#este metodo elimina el archivo json con los datos de sesion

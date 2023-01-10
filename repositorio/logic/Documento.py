@@ -131,8 +131,11 @@ class Documento:
     @staticmethod
     def contarDocumentos():
         documentos = AF.getDataBase().child('proyecto').get().val()
-        cantidadDeDocumentos = len(documentos)
-        return cantidadDeDocumentos
+        if documentos == None:
+            return 0
+        else:
+            cantidadDeDocumentos = len(documentos)
+            return cantidadDeDocumentos
 
     @staticmethod
     def contarPorCarrera():
@@ -145,22 +148,40 @@ class Documento:
         ITICS = "Ing. TIC'S"
         try:
             documentosQuimica = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IQ).get().val()
-            result['countQuimica'] = len(documentosQuimica)
+            if documentosQuimica == None:
+                result['countQuimica'] = 0
+            else:
+                result['countQuimica'] = len(documentosQuimica)
             try:
                 documentosElectronica = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IE).get().val()
-                result['countElectronica'] = len(documentosElectronica)
+                if documentosElectronica == None:
+                    result['countElectronica'] = 0
+                else:
+                    result['countElectronica'] = len(documentosElectronica)
                 try:
                     documentosMecanica = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IM).get().val()
-                    result['countMecanica'] = len(documentosMecanica)
+                    if documentosMecanica == None:
+                        result['countMecanica'] = 0
+                    else:
+                        result['countMecanica'] = len(documentosMecanica)
                     try:
                         documentosAcuicultura = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IA).get().val()
-                        result['countAcuicultura'] = len(documentosAcuicultura)
+                        if documentosAcuicultura == None:
+                            result['countAcuicultura'] = 0
+                        else:
+                            result['countAcuicultura'] = len(documentosAcuicultura)
                         try:
                             documentosIGE = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(IGE).get().val()
-                            result['countIGE'] = len(documentosIGE)
+                            if documentosIGE == None:
+                                result['countIGE'] = 0
+                            else:
+                                result['countIGE'] = len(documentosIGE)
                             try:
                                 documentosTICS = AF.getDataBase().child("proyecto").order_by_child("career").equal_to(ITICS).get().val()
-                                result['countTICS'] = len(documentosTICS)
+                                if documentosTICS == None:
+                                    result['countTICS'] = 0
+                                else:
+                                    result['countTICS'] = len(documentosTICS)
                                 result['error'] = False
                                 return result
                             except Exception as e:

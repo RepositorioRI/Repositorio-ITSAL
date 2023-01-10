@@ -66,8 +66,11 @@ class Contacto():
     def contarQYS(nameFile):#este metodo retorna la cantidad de usuarios en la base de datos
         datosDeSesion = Contacto.devolverTodosLosDatosSesion(nameFile)
         qys = AF.getDataBase().child('quejaSugerencia').get(datosDeSesion['idToken']).val()
-        cantidadDeQYS = len(qys)
-        return cantidadDeQYS
+        if qys == None:
+            return 0
+        else:
+            cantidadDeQYS = len(qys)
+            return cantidadDeQYS
 
     @staticmethod
     def devolverTodosLosDatosSesion(nameFile):#aqui abrimos el json con los datos de session y 
