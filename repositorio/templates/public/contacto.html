@@ -8,25 +8,12 @@
             <div class="card mb-4 shadow-lg">
                 <div class="card-body p-4">
                   <div class="mb-3 pb-1">
-                    <span class="fs-2 fw-bold mb-0 ">Contactanos</span>
+                    <span class="fs-2 fw-bold mb-0 ">Contáctanos</span>
                   </div>
                     <div class="alert alert-secondary" role="alert">
                        Gracias por sus quejas y sugerencias, nos ayudan a mejorar.
                       </div>
                       <form method="post" enctype="multipart/form-data">
-                        <!--
-                        <div class="mb-3">
-                          <label for="inputNombreContacto" class="form-label">Nombre y apellidos</label>
-                          <input type="text" placeholder="Ingrese su nombre y apellidos" class="form-control" id="inputNombreContacto" required>
-                        </div>
-                        <div class="mb-3">
-                          <label for="inputCorreoContactos" class="form-label">Correo Electronico</label>
-                          <input type="email" placeholder="Ingrese su dirección de correo electrónico" class="form-control" id="inputCorreoContactos" required>
-                        </div>
-                        <div class="mb-3">
-                            <textarea  type="text" placeholder="Escriba su mensaje aqui" class="form-control" style="height: 10em;" required></textarea>
-                        </div>
-                        -->
                         {% for field in form %}
                           <strong>{{ field.errors }}</strong>
                           <strong>{{ field.label_tag }}</strong> {{ field }}
