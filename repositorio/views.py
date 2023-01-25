@@ -506,7 +506,18 @@ def eliminarDocumento(request, key):
         return redirect('inicio')
 
 def paginaError(request):
-    return render(request, 'public/paginaError.html')
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            return render(request, 'public/paginaError.html', {
+                'datosDeSesion': datosDeSesion
+            })
+        else:
+            return redirect('cuentaInhabilitada')
+    else:
+        return render(request, 'public/paginaError.html')
 
 def editarDocumento(request, key):
     if (Documento.esKeyValida(key)):
