@@ -101,11 +101,13 @@ class Usuarios:
     @staticmethod
     def obtenerUsuarios(idToken):
         result = dict()
+        role = 'Subadministrador'
         try:
-            all_Usuarios = AF.getDataBase().child('usuario').get(idToken)
+            all_Subadmins = AF.getDataBase().child("usuario").order_by_child("role").equal_to(role).get(idToken)
+            #all_Usuarios = AF.getDataBase().child('usuario').get(idToken)
             listaUsuarios = list()
             data = dict()
-            for user in all_Usuarios.each():
+            for user in all_Subadmins.each():
                 data = user.val()
                 data['key'] = user.key()
                 listaUsuarios.append(data)

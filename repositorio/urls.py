@@ -1,6 +1,8 @@
 from django.urls import path
 from .  import views
 
+handler404 = "repositorio.views.pag_404_not_found"
+
 urlpatterns = [
        path('', views.inicio, name="inicio"),
        path('login/', views.login, name="login"),

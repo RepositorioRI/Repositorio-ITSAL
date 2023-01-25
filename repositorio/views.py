@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from repositorio.logic.Contacto import Contacto
 from repositorio.logic.Documento import Documento
 #importamos la clase que contiene los atributos del firebase
@@ -518,6 +518,21 @@ def paginaError(request):
             return redirect('cuentaInhabilitada')
     else:
         return render(request, 'public/paginaError.html')
+
+def pag_404_not_found(request, exception, template_name="public/paginaError.html"):
+    nameFile = request.COOKIES.get('localId')
+    if (ChecarExpiracion.seLogueo(nameFile)):
+        ChecarExpiracion.checarSiExpiro(nameFile)
+        datosDeSesion = Usuarios.devolverTodosLosDatosSesion(nameFile)
+        if (Usuarios.verificarEstado(nameFile, datosDeSesion['idToken'])):
+            return render(request, 'public/paginaError.html', {
+                'datosDeSesion': datosDeSesion
+            })
+        else:
+            return redirect('cuentaInhabilitada')
+    else:
+        return render(request, 'public/paginaError.html')
+    #return render(request, 'public/paginaError.html', status=404)
 
 def editarDocumento(request, key):
     if (Documento.esKeyValida(key)):
